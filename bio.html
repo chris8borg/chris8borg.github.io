@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chris8borg</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="social-links">
+        <a href="https://open.spotify.com/user/chris8borg?si=22e56383c35a48ee" target="_blank" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
+        <a href="https://vrchat.com/home/user/usr_c2066b72-1d6e-4e65-9130-9e8691d59388" target="_blank" title="VRChat"><i class="fa-solid fa-vr-cardboard"></i></a>
+        <a href="https://steamcommunity.com/id/chris8borg/" target="_blank" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        <a href="#" target="_blank" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+    </div>
+
+    <a href="https://youtu.be/p70uRXcuWoI?si=R3pEOPS1ofuk_h0z" target="_blank" class="floating-lyrics">
+        <p>Si me muero, ven a buscarme</p>
+        <p>Tan pronto encuentres otro cuerpo</p>
+        <p>Y otra forma de mirarme</p>
+    </a>
+
+    <div id="particles-js"></div>
+
+    <div class="profile-container">
+        <header class="banner">
+            <img src="media/banner.jpg" alt="Banner">
+            <div class="banner-text">ᕙ(⇀‸↼‶)ᕗ</div>
+        </header>
+
+        <div class="profile-picture">
+            <img src="media/perfil.jpg" alt="Profile pic">
+        </div>
+
+        <main class="content">
+            <div class="video-wrapper">
+                <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1087386510?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Mal Comunicada - AKRIILA feat. Latin Mafia"></iframe></div>
+            </div>
+            <div class="video-wrapper">
+                <div style="padding:52.71% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1121488562?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="rusowsky - mwah 3 ft. Dinamarca - rusowsky"></iframe></div>
+            </div>
+            <div class="video-wrapper">
+                <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1121494489?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Bb trickz - Malvada"></iframe></div>
+            </div>
+            <div class="video-wrapper">
+                <div style="padding:66.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1112957839?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="POST - AKRILLA - MR SEBAAS"></iframe></div>
+            </div>
+            <div class="spotify-wrapper">
+                <iframe 
+                    style="border-radius:12px" 
+                    src="https://open.spotify.com/embed/track/4UcnP64mbjBbjSDgSv5YYT?utm_source=generator" 
+                    width="100%" 
+                    height="80" 
+                    frameBorder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy">
+                </iframe>
+            </div>
+            <div class="link-wrapper">
+                <a href="https://www.last.fm/user/chris8borg" target="_blank" rel="noopener noreferrer">Perfil de Last.fm</a>
+                <div id="easter-egg-trigger" class="triforce-icon" title="Easter Egg">
+                    <span class="tri top">▲</span>
+                    <span class="tri left">▲</span>
+                    <span class="tri right">▲</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div id="secret-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span id="close-modal" class="close-button">×</span>
+            <div class="modal-video-container">
+                <video 
+                    src="media/easter_egg.mp4" 
+                    poster="media/zeldaintro.png" 
+                    controls 
+                    preload="metadata">
+                    Tu navegador no soporta la etiqueta de video.
+                </video>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", { "particles": { "number": { "value": 60, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#990000" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 0.5, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true }, "line_linked": { "enable": false }, "move": { "enable": true, "speed": 2, "direction": "top", "random": true, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true } }, "retina_detect": true });
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const cursorDot = document.querySelector(".cursor-dot");
+            const cursorOutline = document.querySelector(".cursor-outline");
+            
+            window.addEventListener('mousemove', e => {
+                if (!body.classList.contains('custom-cursor-active')) {
+                    body.classList.add('custom-cursor-active');
+                }
+                cursorDot.style.left = `${e.clientX}px`;
+                cursorDot.style.top = `${e.clientY}px`;
+                cursorOutline.style.left = `${e.clientX}px`;
+                cursorOutline.style.top = `${e.clientY}px`;
+            });
+
+            const interactiveElements = document.querySelectorAll('.video-wrapper, .spotify-wrapper, .link-wrapper, .social-links a, .close-button, .triforce-icon, .floating-lyrics');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursorDot.classList.add('cursor-hidden');
+                    cursorOutline.classList.add('cursor-hidden');
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursorDot.classList.remove('cursor-hidden');
+                    cursorOutline.classList.remove('cursor-hidden');
+                });
+            });
+
+            document.addEventListener('mouseenter', () => {
+                cursorDot.classList.remove('cursor-hidden');
+                cursorOutline.classList.remove('cursor-hidden');
+            });
+
+            const modalTrigger = document.getElementById('easter-egg-trigger');
+            const secretModal = document.getElementById('secret-modal');
+            const closeModalButton = document.getElementById('close-modal');
+            const modalVideo = secretModal.querySelector('video');
+
+            function openModal() {
+                if (secretModal.style.display === 'flex') return;
+                secretModal.style.display = 'flex';
+                cursorDot.classList.add('cursor-hidden');
+                cursorOutline.classList.add('cursor-hidden');
+            }
+
+            function closeModal() {
+                secretModal.style.display = 'none';
+                modalVideo.pause();
+                modalVideo.currentTime = 0;
+                modalVideo.load();
+                cursorDot.classList.remove('cursor-hidden');
+                cursorOutline.classList.remove('cursor-hidden');
+            }
+
+            modalTrigger.addEventListener('click', openModal);
+            closeModalButton.addEventListener('click', closeModal);
+            window.addEventListener('click', e => {
+                if (e.target === secretModal) {
+                    closeModal();
+                }
+            });
+
+            const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+            let konamiIndex = 0;
+            document.addEventListener('keydown', e => {
+                if (e.key.toLowerCase() === konamiCode[konamiIndex]) {
+                    konamiIndex++;
+                    if (konamiIndex === konamiCode.length) {
+                        openModal();
+                        konamiIndex = 0;
+                    }
+                } else {
+                    konamiIndex = 0;
+                }
+            });
+
+            const pageTitle = "chris8borg";
+            const edgyEmojis = ["✞", "💀", "⛓️", "🥀", "🕸️", "🦇", "⸸", "🔪"];
+            let i = 0;
+            setInterval(() => {
+                const emoji = edgyEmojis[i % edgyEmojis.length];
+                document.title = `${emoji} ${pageTitle} ${emoji}`;
+                i++;
+            }, 1000);
+
+            const banner = document.querySelector('.banner');
+            const bannerImg = document.querySelector('.banner img');
+            const bannerText = document.querySelector('.banner-text');
+            banner.addEventListener('mousemove', function(e) {
+                const { left, top, width, height } = banner.getBoundingClientRect();
+                const x = (e.clientX - left - width / 2) / width * 20;
+                const y = (e.clientY - top - height / 2) / height * 20;
+                bannerImg.style.transform = `translateX(${-x}px) translateY(${-y}px) scale(1.1)`;
+                bannerText.style.transform = `translate(-50%, -50%) translateX(${x*0.5}px) translateY(${y*0.5}px)`;
+            });
+            banner.addEventListener('mouseleave', function() {
+                bannerImg.style.transform = `translateX(0px) translateY(0px) scale(1)`;
+                bannerText.style.transform = `translate(-50%, -50%) translateX(0px) translateY(0px)`;
+            });
+        });
+    </script>
+</body>
+</html>
