@@ -137,11 +137,8 @@ body.custom-cursor-active {
 }
 .content {
     background: transparent;
-    padding-top: 75px; 
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 30px;
-    margin-top: 0; 
+    padding: 100px 30px 30px 30px;
+    margin-top: -75px;
     display: flex;
     flex-direction: column;
     gap: 20px;
