@@ -230,13 +230,9 @@ const vimeoPlayers = [];
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('show-on-scroll');
-            } else {
-                entry.target.classList.remove('show-on-scroll');
+                observer.unobserve(entry.target);
             }
         });
-    }, {
-        rootMargin: '0px',
-        threshold: 0.1
     });
 
     const contentItems = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper');
