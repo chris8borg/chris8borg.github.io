@@ -11,7 +11,7 @@ const vimeoPlayers = [];
 
     const updateCursor = () => {
         cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-        cursorOutline.style.transform = `translate(${mouseX}px, ${moyseY}px) translate(-50%, -50%)`;
+        cursorOutline.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
         requestAnimationFrame(updateCursor);
     };
 
@@ -227,7 +227,7 @@ const vimeoPlayers = [];
             });
         }
     });
-    
+
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
