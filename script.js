@@ -10,16 +10,23 @@ const vimeoPlayers = [];
         cursorOutline.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
         requestAnimationFrame(updateCursor);
     };
-    const lyricsLink = document.querySelector('.floating-lyrics');
-    const lyricsAudio = document.getElementById('lyrics-audio');
+   const lyricsLink = document.querySelector('.floating-lyrics');
+   const lyricsAudio = document.getElementById('lyrics-audio');
 
-    if (lyricsLink && lyricsAudio) {
-        lyricsAudio.addEventListener('canplaythrough', () => {
-            lyricsLink.addEventListener('mouseenter', () => {
-                let playPromise = lyricsAudio.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(() => {});
-                }
+   if (lyricsLink && lyricsAudio) {
+    lyricsAudio.addEventListener('canplaythrough', () => {
+        lyricsLink.addEventListener('mouseenter', () => {
+            let playPromise = lyricsAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {});
+            }
+        });
+
+        lyricsLink.addEventListener('mouseleave', () => {
+            lyricsAudio.pause();
+        });
+    }, { once: true });
+}
             });
 
             lyricsLink.addEventListener('mouseleave', () => {
