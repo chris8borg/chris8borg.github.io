@@ -151,6 +151,8 @@ const vimeoPlayers = [];
         const bgVideoPath = videoWrapper.getAttribute('data-bg-video');
 
         player.on('play', () => {
+            activePlayer = player;
+
             vimeoPlayers.forEach(otherPlayer => {
                 if (otherPlayer !== player) {
                     otherPlayer.pause();
@@ -159,16 +161,12 @@ const vimeoPlayers = [];
 
             contentItemsToFade.forEach(item => {
                 item.classList.remove('is-faded');
-            });
-
-            contentItemsToFade.forEach(item => {
                 if (item !== videoWrapper) {
                     item.classList.add('is-faded');
                 }
             });
 
             if (bgVideoPath) {
-                activePlayer = player;
                 backgroundVideo.src = bgVideoPath;
                 backgroundVideo.play().catch(() => {});
                 backgroundContainer.style.opacity = 1;
@@ -176,10 +174,10 @@ const vimeoPlayers = [];
         });
 
         const restorePageVisuals = () => {
-            contentItemsToFade.forEach(item => {
-                item.classList.remove('is-faded');
-            });
             if (activePlayer === player) {
+                contentItemsToFade.forEach(item => {
+                    item.classList.remove('is-faded');
+                });
                 backgroundVideo.pause();
                 backgroundContainer.style.opacity = 0;
                 activePlayer = null;
