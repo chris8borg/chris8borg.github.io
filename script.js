@@ -138,16 +138,45 @@ const vimeoPlayers = [];
         bannerText.style.transform = `translate(-50%, -50%)`;
     }
 
+    const backgroundContainer = document.querySelector('.video-background-container');
+    const backgroundVideo = backgroundContainer.querySelector('video');
+    let activePlayer = null;
+
     const vimeoIframes = document.querySelectorAll('.video-wrapper iframe');
     vimeoIframes.forEach(iframe => {
         const player = new Vimeo.Player(iframe);
         vimeoPlayers.push(player);
+        const videoWrapper = iframe.closest('.video-wrapper');
+        const bgVideoPath = videoWrapper.getAttribute('data-bg-video');
+
         player.on('play', () => {
             vimeoPlayers.forEach(otherPlayer => {
                 if (otherPlayer !== player) {
                     otherPlayer.pause();
                 }
             });
+            if (bgVideoPath) {
+                activePlayer = player;
+                backgroundVideo.src = bgVideoPath;
+                backgroundVideo.play().catch(() => {});
+                backgroundContainer.style.opacity = 1;
+            }
+        });
+
+        player.on('pause', () => {
+            if (activePlayer === player) {
+                backgroundVideo.pause();
+                backgroundContainer.style.opacity = 0;
+                activePlayer = null;
+            }
+        });
+
+        player.on('ended', () => {
+            if (activePlayer === player) {
+                backgroundVideo.pause();
+                backgroundContainer.style.opacity = 0;
+                activePlayer = null;
+            }
         });
     });
 
