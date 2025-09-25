@@ -150,6 +150,7 @@ body.custom-cursor-active {
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(255, 80, 0, 0.3);
     overflow: hidden;
+    transition: opacity 0.3s ease;
 }
 .video-wrapper iframe,
 .spotify-wrapper iframe {
@@ -168,7 +169,7 @@ body.custom-cursor-active {
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(255, 80, 0, 0.3);
     padding: 15px 20px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
     animation: pulse-glow 2.5s infinite ease-in-out;
     display: flex;
     justify-content: space-between;
@@ -455,4 +456,8 @@ body.custom-cursor-active {
     height: 100%;
     object-fit: cover;
     filter: blur(15px) brightness(0.7);
+}
+
+.is-faded {
+    opacity: 0.2;
 }
