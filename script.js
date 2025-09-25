@@ -138,17 +138,54 @@ const vimeoPlayers = [];
         bannerText.style.transform = `translate(-50%, -50%)`;
     }
 
+    const backgroundContainer = document.querySelector('.video-background-container');
+    const backgroundVideo = backgroundContainer.querySelector('video');
+    const contentItemsToFade = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper');
+    let activePlayer = null;
+
     const vimeoIframes = document.querySelectorAll('.video-wrapper iframe');
     vimeoIframes.forEach(iframe => {
         const player = new Vimeo.Player(iframe);
         vimeoPlayers.push(player);
+        const videoWrapper = iframe.closest('.video-wrapper');
+        const bgVideoPath = videoWrapper.getAttribute('data-bg-video');
+
         player.on('play', () => {
+            activePlayer = player;
+
             vimeoPlayers.forEach(otherPlayer => {
                 if (otherPlayer !== player) {
                     otherPlayer.pause();
                 }
             });
+
+            contentItemsToFade.forEach(item => {
+                item.classList.remove('is-faded');
+                if (item !== videoWrapper) {
+                    item.classList.add('is-faded');
+                }
+            });
+
+            if (bgVideoPath) {
+                backgroundVideo.src = bgVideoPath;
+                backgroundVideo.play().catch(() => {});
+                backgroundContainer.style.opacity = 1;
+            }
         });
+
+        const restorePageVisuals = () => {
+            if (activePlayer === player) {
+                contentItemsToFade.forEach(item => {
+                    item.classList.remove('is-faded');
+                });
+                backgroundVideo.pause();
+                backgroundContainer.style.opacity = 0;
+                activePlayer = null;
+            }
+        };
+
+        player.on('pause', restorePageVisuals);
+        player.on('ended', restorePageVisuals);
     });
 
     const sackboyImage = document.getElementById('sackboy-image');
@@ -193,13 +230,9 @@ const vimeoPlayers = [];
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('show-on-scroll');
-            } else {
-                entry.target.classList.remove('show-on-scroll');
+                observer.unobserve(entry.target);
             }
         });
-    }, {
-        rootMargin: '0px',
-        threshold: 0.1
     });
 
     const contentItems = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper');

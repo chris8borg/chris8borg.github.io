@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="video-background-container">
+        <video loop muted playsinline></video>
+    </div>
+
     <div class="social-links">
         <a href="https://open.spotify.com/user/chris8borg?si=22e56383c35a48ee" target="_blank" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
         <a href="https://vrchat.com/home/user/usr_c2066b72-1d6e-4e65-9130-9e8691d59388" target="_blank" title="VRChat"><i class="fa-solid fa-vr-cardboard"></i></a>
@@ -32,7 +36,7 @@
             <img src="assets/banner.jpg" alt="Banner">
             <div class="banner-text">
                 <span class="kamoji-desktop">ᕙ(⇀‸↼‶)ᕗ</span>
-                <span class="kamoji-mobile">٩(●̮̃•)۶</span>
+                <span class="kamoji-mobile">(￣o￣) . z Z</span>
             </div>
         </header>
 
@@ -41,17 +45,17 @@
         </div>
 
         <main class="content">
-            <div class="video-wrapper">
-                <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1087386510?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Mal Comunicada - AKRIILA feat. Latin Mafia"></iframe></div>
+            <div class="video-wrapper" data-bg-video="assets/videos/mal-comunicada-bg.mp4" style="padding:56.25% 0 0 0;position:relative;">
+                <iframe src="https://player.vimeo.com/video/1087386510?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Mal Comunicada - AKRIILA feat. Latin Mafia"></iframe>
             </div>
-            <div class="video-wrapper">
-                <div style="padding:52.71% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1121488562?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="rusowsky - mwah 3 ft. Dinamarca - rusowsky"></iframe></div>
+            <div class="video-wrapper" data-bg-video="assets/videos/rusowsky-bg.mp4" style="padding:52.71% 0 0 0;position:relative;">
+                <iframe src="https://player.vimeo.com/video/1121488562?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="rusowsky - mwah 3 ft. Dinamarca - rusowsky"></iframe>
             </div>
-            <div class="video-wrapper">
-                <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1121494489?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Bb trickz - Malvada"></iframe></div>
+            <div class="video-wrapper" data-bg-video="assets/videos/malvada-bg.mp4" style="padding:56.25% 0 0 0;position:relative;">
+                <iframe src="https://player.vimeo.com/video/1121494489?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Bb trickz - Malvada"></iframe>
             </div>
-            <div class="video-wrapper">
-                <div style="padding:66.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1112957839?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="POST - AKRILLA - MR SEBAAS"></iframe></div>
+            <div class="video-wrapper" data-bg-video="assets/videos/post-akrilla-bg.mp4" style="padding:66.67% 0 0 0;position:relative;">
+                <iframe src="https://player.vimeo.com/video/1112957839?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="POST - AKRILLA - MR SEBAAS"></iframe>
             </div>
             <div class="spotify-wrapper">
                 <iframe 
@@ -104,7 +108,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
