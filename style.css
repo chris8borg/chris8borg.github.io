@@ -77,7 +77,7 @@ body.custom-cursor-active {
     top: 220px;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
+    z-index: 3;
 }
 .profile-picture img {
     width: 150px;
@@ -137,8 +137,11 @@ body.custom-cursor-active {
 }
 .content {
     background: transparent;
-    padding: 25px 30px 30px 30px;
-    margin-top: 0;
+    padding-top: 75px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    margin-top: -75px;
     display: flex;
     flex-direction: column;
     gap: 20px;
