@@ -29,6 +29,30 @@
         <p>Y otra forma de mirarme</p>
     </a>
 
+    <div id="now-playing-widget" class="widget-container">
+        <div class="widget-header">
+            <p>CHRIS IS STREAMING 🎧</p>
+            <div class="widget-buttons">
+                <button id="minimize-btn" title="Minimizar"><i class="fa-solid fa-minus"></i></button>
+            </div>
+        </div>
+        <a id="song-link" href="#" target="_blank" rel="noopener noreferrer">
+            <div class="widget-content">
+                <img id="album-art" src="assets/static.gif" alt="Album Art">
+                <div class="song-info">
+                    <p id="song-title">Cargando...</p>
+                    <p id="song-artist"></p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div id="minimized-widget" class="minimized-bubble hidden" title="Expandir">
+        <div class="crt-wrapper">
+            <i class="fa-brands fa-lastfm"></i>
+        </div>
+    </div>
+
     <div id="particles-js"></div>
 
     <div class="profile-container">

@@ -2,10 +2,12 @@ particlesJS("particles-js", { "particles": { "number": { "value": 60, "density":
 
 const vimeoPlayers = [];
 
-(() => {
+document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const cursorDot = document.querySelector(".cursor-dot");
     const cursorOutline = document.querySelector(".cursor-outline");
+    const backgroundVideoContainer = document.querySelector('.video-background-container');
+    const backgroundVideo = backgroundVideoContainer.querySelector('video');
 
     let mouseX = 0, mouseY = 0;
 
@@ -36,14 +38,13 @@ const vimeoPlayers = [];
                     playPromise.catch(() => {});
                 }
             });
-
             lyricsLink.addEventListener('mouseleave', () => {
                 lyricsAudio.pause();
             });
         }, { once: true });
     }
 
-    const interactiveElements = document.querySelectorAll('.video-wrapper, .spotify-wrapper, .link-wrapper, .social-links a, .close-button, .triforce-icon, .floating-lyrics, .sackboy-image');
+    const interactiveElements = document.querySelectorAll('.video-wrapper, .spotify-wrapper, .link-wrapper, .social-links a, .close-button, .triforce-icon, .floating-lyrics, .sackboy-image, #minimize-btn, #minimized-widget, #song-link, .profile-picture');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursorDot.classList.add('cursor-hidden');
@@ -70,9 +71,7 @@ const vimeoPlayers = [];
         secretModal.style.display = 'flex';
         cursorDot.classList.add('cursor-hidden');
         cursorOutline.classList.add('cursor-hidden');
-        vimeoPlayers.forEach(player => {
-            player.pause();
-        });
+        vimeoPlayers.forEach(player => player.pause());
     }
 
     function closeModal() {
@@ -86,16 +85,12 @@ const vimeoPlayers = [];
 
     modalTrigger.addEventListener('click', openModal);
     closeModalButton.addEventListener('click', closeModal);
-
     window.addEventListener('click', e => {
-        if (e.target === secretModal) {
-            closeModal();
-        }
+        if (e.target === secretModal) closeModal();
     });
 
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     let konamiIndex = 0;
-
     document.addEventListener('keydown', e => {
         if (e.key.toLowerCase() === konamiCode[konamiIndex]) {
             konamiIndex++;
@@ -133,59 +128,60 @@ const vimeoPlayers = [];
             bannerImg.style.transform = `translateX(0px) translateY(0px) scale(1)`;
             bannerText.style.transform = `translate(-50%, -50%)`;
         });
-    } else {
-        bannerImg.style.transform = `scale(1)`;
-        bannerText.style.transform = `translate(-50%, -50%)`;
     }
-
-    const backgroundContainer = document.querySelector('.video-background-container');
-    const backgroundVideo = backgroundContainer.querySelector('video');
-    const contentItemsToFade = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper');
-    let activePlayer = null;
+    
+    const profilePicture = document.querySelector('.profile-picture');
+    if (profilePicture) {
+        profilePicture.addEventListener('mouseenter', () => {
+            profilePicture.classList.add('glitch-active');
+        });
+        profilePicture.addEventListener('mouseleave', () => {
+            profilePicture.classList.remove('glitch-active');
+        });
+    }
 
     const vimeoIframes = document.querySelectorAll('.video-wrapper iframe');
     vimeoIframes.forEach(iframe => {
         const player = new Vimeo.Player(iframe);
         vimeoPlayers.push(player);
-        const videoWrapper = iframe.closest('.video-wrapper');
-        const bgVideoPath = videoWrapper.getAttribute('data-bg-video');
+        const parentWrapper = iframe.closest('.video-wrapper');
+        const bgVideoSrc = parentWrapper.getAttribute('data-bg-video');
 
         player.on('play', () => {
-            activePlayer = player;
-
             vimeoPlayers.forEach(otherPlayer => {
                 if (otherPlayer !== player) {
                     otherPlayer.pause();
                 }
             });
-
-            contentItemsToFade.forEach(item => {
-                item.classList.remove('is-faded');
-                if (item !== videoWrapper) {
-                    item.classList.add('is-faded');
-                }
-            });
-
-            if (bgVideoPath) {
-                backgroundVideo.src = bgVideoPath;
-                backgroundVideo.play().catch(() => {});
-                backgroundContainer.style.opacity = 1;
+            document.querySelectorAll('.video-wrapper').forEach(w => w.classList.remove('video-active'));
+            parentWrapper.classList.add('video-active');
+            body.classList.add('video-is-playing');
+            if (bgVideoSrc) {
+                backgroundVideo.src = bgVideoSrc;
+                backgroundVideoContainer.style.opacity = '1';
+                backgroundVideo.play();
             }
         });
 
-        const restorePageVisuals = () => {
-            if (activePlayer === player) {
-                contentItemsToFade.forEach(item => {
-                    item.classList.remove('is-faded');
-                });
+        const onPauseOrEnd = async () => {
+            let anyPlaying = false;
+            for (const p of vimeoPlayers) {
+                const paused = await p.getPaused();
+                if (!paused) {
+                    anyPlaying = true;
+                    break;
+                }
+            }
+            if (!anyPlaying) {
+                body.classList.remove('video-is-playing');
+                backgroundVideoContainer.style.opacity = '0';
                 backgroundVideo.pause();
-                backgroundContainer.style.opacity = 0;
-                activePlayer = null;
+                parentWrapper.classList.remove('video-active');
             }
         };
 
-        player.on('pause', restorePageVisuals);
-        player.on('ended', restorePageVisuals);
+        player.on('pause', onPauseOrEnd);
+        player.on('ended', onPauseOrEnd);
     });
 
     const sackboyImage = document.getElementById('sackboy-image');
@@ -193,36 +189,28 @@ const vimeoPlayers = [];
     const lbpEmojis = ['🪐', '🌸', '👑', '🌟'];
     let isAudioPlaying = false;
 
-    sackboyImage.addEventListener('click', (e) => {
+    sackboyImage.addEventListener('click', () => {
         if (!isAudioPlaying) {
             if (lbpAudio) {
                 lbpAudio.currentTime = 0;
                 lbpAudio.play();
                 isAudioPlaying = true;
-                lbpAudio.onended = () => {
-                    isAudioPlaying = false;
-                };
+                lbpAudio.onended = () => { isAudioPlaying = false; };
             }
         }
         const rect = sackboyImage.getBoundingClientRect();
-        const startX = rect.left + Math.random() * rect.width;
-        const startY = rect.top + Math.random() * rect.height;
         for (let i = 0; i < 5; i++) {
             const emoji = document.createElement('span');
             emoji.classList.add('lbp-emoji');
             emoji.textContent = lbpEmojis[Math.floor(Math.random() * lbpEmojis.length)];
             document.body.appendChild(emoji);
-            emoji.style.left = `${startX}px`;
-            emoji.style.top = `${startY}px`;
+            emoji.style.left = `${rect.left + Math.random() * rect.width}px`;
+            emoji.style.top = `${rect.top + Math.random() * rect.height}px`;
             const angle = Math.random() * 2 * Math.PI;
             const distance = 100 + Math.random() * 100;
-            const endX = Math.cos(angle) * distance;
-            const endY = Math.sin(angle) * distance;
-            emoji.style.setProperty('--x-end', `${endX}px`);
-            emoji.style.setProperty('--y-end', `${endY}px`);
-            emoji.addEventListener('animationend', () => {
-                emoji.remove();
-            });
+            emoji.style.setProperty('--x-end', `${Math.cos(angle) * distance}px`);
+            emoji.style.setProperty('--y-end', `${Math.sin(angle) * distance}px`);
+            emoji.addEventListener('animationend', () => emoji.remove());
         }
     });
 
@@ -230,14 +218,100 @@ const vimeoPlayers = [];
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('show-on-scroll');
-                observer.unobserve(entry.target);
             }
         });
-    });
+    }, { threshold: 0.1 });
 
-    const contentItems = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper');
-    contentItems.forEach(item => {
+    document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper').forEach(item => {
         item.classList.add('hidden-on-load');
         observer.observe(item);
     });
-})();
+    
+    const API_KEY = '37551a7c353320cef274485b6aef74ff';
+    const USERNAME = 'chris8borg';
+    const REFRESH_INTERVAL = 15000;
+
+    const widget = document.getElementById('now-playing-widget');
+    const minimizedWidget = document.getElementById('minimized-widget');
+    const songTitleEl = document.getElementById('song-title');
+    const songArtistEl = document.getElementById('song-artist');
+    const albumArtEl = document.getElementById('album-art');
+    const minimizeBtn = document.getElementById('minimize-btn');
+    const songLink = document.getElementById('song-link');
+    const songInfoEl = document.querySelector('.song-info');
+    const INACTIVE_IMAGE_URL = 'assets/idle-render.png';
+    const apiUrl = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USERNAME}&api_key=${API_KEY}&format=json&limit=1`;
+
+    function showInactiveState() {
+        songTitleEl.textContent = 'Silencio por aquí...';
+        songArtistEl.textContent = 'SYSTEM IDLE';
+        albumArtEl.src = INACTIVE_IMAGE_URL;
+        songLink.href = '#';
+        songLink.classList.add('disabled');
+        songInfoEl.classList.add('system-idle');
+    }
+    
+    async function fetchNowPlaying() {
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error('API connection error');
+            const data = await response.json();
+            const recentTrack = data?.recenttracks?.track?.[0];
+
+            if (recentTrack && recentTrack['@attr']?.nowplaying === 'true') {
+                updateWidgetUI(recentTrack);
+            } else {
+                showInactiveState();
+            }
+        } catch (error) {
+            songTitleEl.textContent = 'CONNECTION FAILED';
+            songArtistEl.textContent = 'PLEASE TRY LATER';
+            albumArtEl.src = INACTIVE_IMAGE_URL;
+            songLink.href = '#';
+            songLink.classList.add('disabled');
+            songInfoEl.classList.add('system-idle');
+        }
+    }
+
+    function updateWidgetUI(track) {
+        const artist = track.artist?.['#text'] || 'Artista Desconocido';
+        const title = track.name || 'Canción Desconocida';
+        songTitleEl.textContent = title;
+        songArtistEl.textContent = artist;
+        albumArtEl.src = track.image?.[3]?.['#text'] || INACTIVE_IMAGE_URL;
+        songLink.href = `https://open.spotify.com/search/${encodeURIComponent(`${artist} ${title}`)}`;
+        songLink.classList.remove('disabled');
+        songInfoEl.classList.remove('system-idle');
+    }
+
+    function initializeWidgetState() {
+        const state = localStorage.getItem('widgetState');
+        if (state === 'minimized') {
+            widget.classList.add('hidden');
+            minimizedWidget.classList.remove('hidden');
+        } else {
+            widget.classList.remove('hidden');
+            minimizedWidget.classList.add('hidden');
+            fetchNowPlaying();
+        }
+    }
+
+    minimizeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        widget.classList.add('hidden');
+        minimizedWidget.classList.remove('hidden');
+        localStorage.setItem('widgetState', 'minimized');
+    });
+
+    minimizedWidget.addEventListener('click', () => {
+        widget.classList.remove('hidden');
+        minimizedWidget.classList.add('hidden');
+        localStorage.setItem('widgetState', 'default');
+        fetchNowPlaying();
+    });
+
+    initializeWidgetState();
+    setInterval(() => {
+        if (!widget.classList.contains('hidden')) fetchNowPlaying();
+    }, REFRESH_INTERVAL);
+});
