@@ -140,7 +140,7 @@ const vimeoPlayers = [];
 
     const backgroundContainer = document.querySelector('.video-background-container');
     const backgroundVideo = backgroundContainer.querySelector('video');
-    const contentItemsToFade = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper');
+    const contentItemsToFade = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper, .content > .now-listening-widget');
     let activePlayer = null;
 
     const vimeoIframes = document.querySelectorAll('.video-wrapper iframe');
@@ -158,6 +158,7 @@ const vimeoPlayers = [];
             });
 
             contentItemsToFade.forEach(item => {
+                item.classList.remove('is-faded');
                 if (item !== videoWrapper) {
                     item.classList.add('is-faded');
                 }
@@ -223,6 +224,41 @@ const vimeoPlayers = [];
             });
         }
     });
+    
+    const fetchLastFm = () => {
+        const apiKey = 'TU_API_KEY';
+        const user = 'chris8borg';
+        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&format=json&limit=1`;
+        
+        const widget = document.querySelector('.now-listening-widget');
+        const artistEl = widget.querySelector('.track-artist');
+        const nameEl = widget.querySelector('.track-name');
+        const artEl = widget.querySelector('.album-art-container img');
+        const indicatorEl = widget.querySelector('.live-indicator');
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const track = data.recenttracks.track[0];
+                const isNowPlaying = track['@attr'] && track['@attr'].nowplaying === 'true';
+
+                artistEl.textContent = track.artist['#text'];
+                nameEl.textContent = track.name;
+                artEl.src = track.image[2]['#text'];
+                
+                if (isNowPlaying) {
+                    indicatorEl.style.display = 'block';
+                } else {
+                    indicatorEl.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                artistEl.textContent = 'Failed to load track';
+            });
+    };
+
+    fetchLastFm();
+    setInterval(fetchLastFm, 20000);
 
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -237,7 +273,7 @@ const vimeoPlayers = [];
         threshold: 0.1
     });
 
-    const contentItems = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper');
+    const contentItems = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper, .content > .now-listening-widget');
     contentItems.forEach(item => {
         item.classList.add('hidden-on-load');
         observer.observe(item);
