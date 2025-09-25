@@ -1,45 +1,20 @@
 particlesJS("particles-js", { "particles": { "number": { "value": 60, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#990000" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 0.5, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true }, "line_linked": { "enable": false }, "move": { "enable": true, "speed": 2, "direction": "top", "random": true, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true } }, "retina_detect": true });
+
 const vimeoPlayers = [];
+
 (() => {
     const body = document.body;
     const cursorDot = document.querySelector(".cursor-dot");
     const cursorOutline = document.querySelector(".cursor-outline");
+
     let mouseX = 0, mouseY = 0;
+
     const updateCursor = () => {
         cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
         cursorOutline.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
         requestAnimationFrame(updateCursor);
     };
-   const lyricsLink = document.querySelector('.floating-lyrics');
-   const lyricsAudio = document.getElementById('lyrics-audio');
 
-   if (lyricsLink && lyricsAudio) {
-    lyricsAudio.addEventListener('canplaythrough', () => {
-        lyricsLink.addEventListener('mouseenter', () => {
-            let playPromise = lyricsAudio.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {});
-            }
-        });
-
-        lyricsLink.addEventListener('mouseleave', () => {
-            lyricsAudio.pause();
-        });
-    }, { once: true });
-}
-            });
-
-            lyricsLink.addEventListener('mouseleave', () => {
-                lyricsAudio.pause();
-            });
-        }, { once: true });
-    }
-        });
-
-        lyricsLink.addEventListener('mouseleave', () => {
-            lyricsAudio.pause();
-        });
-    }
     window.addEventListener('mousemove', e => {
         if (!body.classList.contains('custom-cursor-active')) {
             body.classList.add('custom-cursor-active');
@@ -47,7 +22,27 @@ const vimeoPlayers = [];
         mouseX = e.clientX;
         mouseY = e.clientY;
     });
+
     updateCursor();
+
+    const lyricsLink = document.querySelector('.floating-lyrics');
+    const lyricsAudio = document.getElementById('lyrics-audio');
+
+    if (lyricsLink && lyricsAudio) {
+        lyricsAudio.addEventListener('canplaythrough', () => {
+            lyricsLink.addEventListener('mouseenter', () => {
+                let playPromise = lyricsAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {});
+                }
+            });
+
+            lyricsLink.addEventListener('mouseleave', () => {
+                lyricsAudio.pause();
+            });
+        }, { once: true });
+    }
+
     const interactiveElements = document.querySelectorAll('.video-wrapper, .spotify-wrapper, .link-wrapper, .social-links a, .close-button, .triforce-icon, .floating-lyrics, .sackboy-image');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
@@ -59,14 +54,17 @@ const vimeoPlayers = [];
             cursorOutline.classList.remove('cursor-hidden');
         });
     });
+
     document.addEventListener('mouseenter', () => {
         cursorDot.classList.remove('cursor-hidden');
         cursorOutline.classList.remove('cursor-hidden');
     });
+
     const modalTrigger = document.getElementById('easter-egg-trigger');
     const secretModal = document.getElementById('secret-modal');
     const closeModalButton = document.getElementById('close-modal');
     const modalVideo = secretModal.querySelector('video');
+
     function openModal() {
         if (secretModal.style.display === 'flex') return;
         secretModal.style.display = 'flex';
@@ -76,6 +74,7 @@ const vimeoPlayers = [];
             player.pause();
         });
     }
+
     function closeModal() {
         secretModal.style.display = 'none';
         modalVideo.pause();
@@ -84,15 +83,19 @@ const vimeoPlayers = [];
         cursorDot.classList.remove('cursor-hidden');
         cursorOutline.classList.remove('cursor-hidden');
     }
+
     modalTrigger.addEventListener('click', openModal);
     closeModalButton.addEventListener('click', closeModal);
+
     window.addEventListener('click', e => {
         if (e.target === secretModal) {
             closeModal();
         }
     });
+
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     let konamiIndex = 0;
+
     document.addEventListener('keydown', e => {
         if (e.key.toLowerCase() === konamiCode[konamiIndex]) {
             konamiIndex++;
@@ -104,6 +107,7 @@ const vimeoPlayers = [];
             konamiIndex = 0;
         }
     });
+
     const pageTitle = "chris8borg";
     const edgyEmojis = ["🗝️", "🔮", "🌌", "⏳"];
     let i = 0;
@@ -112,9 +116,11 @@ const vimeoPlayers = [];
         document.title = `${emoji} ${pageTitle} ${emoji}`;
         i++;
     }, 1000);
+
     const banner = document.querySelector('.banner');
     const bannerImg = document.querySelector('.banner img');
     const bannerText = document.querySelector('.banner-text');
+
     if (window.innerWidth > 768) {
         banner.addEventListener('mousemove', function(e) {
             const { left, top, width, height } = banner.getBoundingClientRect();
@@ -131,6 +137,7 @@ const vimeoPlayers = [];
         bannerImg.style.transform = `scale(1)`;
         bannerText.style.transform = `translate(-50%, -50%)`;
     }
+
     const vimeoIframes = document.querySelectorAll('.video-wrapper iframe');
     vimeoIframes.forEach(iframe => {
         const player = new Vimeo.Player(iframe);
@@ -143,10 +150,12 @@ const vimeoPlayers = [];
             });
         });
     });
+
     const sackboyImage = document.getElementById('sackboy-image');
     const lbpAudio = document.getElementById('lbp-audio');
     const lbpEmojis = ['🪐', '🌸', '👑', '🌟'];
     let isAudioPlaying = false;
+
     sackboyImage.addEventListener('click', (e) => {
         if (!isAudioPlaying) {
             if (lbpAudio) {
@@ -179,6 +188,7 @@ const vimeoPlayers = [];
             });
         }
     });
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -187,6 +197,7 @@ const vimeoPlayers = [];
             }
         });
     });
+
     const contentItems = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper');
     contentItems.forEach(item => {
         item.classList.add('hidden-on-load');
