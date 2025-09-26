@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const lyricsLink = document.querySelector('.floating-lyrics');
     const lyricsAudio = document.getElementById('lyrics-audio');
+    lyricsAudio.volume = 0.25;
 
     if (lyricsLink && lyricsAudio) {
         lyricsAudio.addEventListener('canplaythrough', () => {
@@ -103,18 +104,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const pageTitle = "chris8borg";
-    const edgyEmojis = ["🗝️", "🔮", "🌌", "⏳"];
-    let i = 0;
-    setInterval(() => {
-        const emoji = edgyEmojis[i % edgyEmojis.length];
-        document.title = `${emoji} ${pageTitle} ${emoji}`;
-        i++;
-    }, 1000);
+    function glitchTabTitle() {
+        const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
+        const minLength = 4;
+        const maxLength = 10;
+        const randomLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+        let glitchText = '';
+        for (let i = 0; i < randomLength; i++) {
+            const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+            glitchText += randomChar;
+        }
+        document.title = glitchText;
+        const randomDelay = Math.random() * (900 - 150) + 150;
+        setTimeout(glitchTabTitle, randomDelay);
+    }
+    glitchTabTitle();
 
     const banner = document.querySelector('.banner');
-    const bannerImg = document.querySelector('.banner img');
-    const bannerText = document.querySelector('.banner-text');
+    const bannerImg = banner.querySelector('img');
+    const kamojiDesktop = banner.querySelector('.kamoji-desktop');
 
     if (window.innerWidth > 768) {
         banner.addEventListener('mousemove', function(e) {
@@ -122,11 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = (e.clientX - left - width / 2) / width * 20;
             const y = (e.clientY - top - height / 2) / height * 20;
             bannerImg.style.transform = `translateX(${-x}px) translateY(${-y}px) scale(1.1)`;
-            bannerText.style.transform = `translate(-50%, -50%) translateX(${x*0.5}px) translateY(${y*0.5}px)`;
+            if (kamojiDesktop) {
+                kamojiDesktop.style.transform = `translate(-50%, -50%) translateX(${x * 0.5}px) translateY(${y * 0.5}px)`;
+            }
         });
         banner.addEventListener('mouseleave', function() {
-            bannerImg.style.transform = `translateX(0px) translateY(0px) scale(1)`;
-            bannerText.style.transform = `translate(-50%, -50%)`;
+            bannerImg.style.transform = 'translateX(0px) translateY(0px) scale(1)';
+            if (kamojiDesktop) {
+                kamojiDesktop.style.transform = 'translate(-50%, -50%)';
+            }
         });
     }
     
@@ -157,7 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
             parentWrapper.classList.add('video-active');
             body.classList.add('video-is-playing');
             if (bgVideoSrc) {
-                backgroundVideo.src = bgVideoSrc;
+                if (!backgroundVideo.src.endsWith(bgVideoSrc)) {
+                    backgroundVideo.src = bgVideoSrc;
+                }
                 backgroundVideoContainer.style.opacity = '1';
                 backgroundVideo.play();
             }
@@ -244,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showInactiveState() {
         songTitleEl.textContent = 'Silencio por aquí...';
-        songArtistEl.textContent = 'SYSTEM IDLE';
+        songArtistEl.textContent = '';
         albumArtEl.src = INACTIVE_IMAGE_URL;
         songLink.href = '#';
         songLink.classList.add('disabled');
@@ -279,14 +293,19 @@ document.addEventListener('DOMContentLoaded', () => {
         songTitleEl.textContent = title;
         songArtistEl.textContent = artist;
         albumArtEl.src = track.image?.[3]?.['#text'] || INACTIVE_IMAGE_URL;
-        songLink.href = `https://open.spotify.com/search/${encodeURIComponent(`${artist} ${title}`)}`;
+        songLink.href = `https://www.last.fm/music/${encodeURIComponent(artist)}/_/${encodeURIComponent(title)}`;
         songLink.classList.remove('disabled');
         songInfoEl.classList.remove('system-idle');
     }
 
     function initializeWidgetState() {
-        const state = localStorage.getItem('widgetState');
-        if (state === 'minimized') {
+        const isMobile = window.innerWidth <= 768;
+        const savedState = localStorage.getItem('widgetState');
+        if (isMobile) {
+            widget.classList.add('hidden');
+            minimizedWidget.classList.remove('hidden');
+            localStorage.setItem('widgetState', 'minimized');
+        } else if (savedState === 'minimized') {
             widget.classList.add('hidden');
             minimizedWidget.classList.remove('hidden');
         } else {
