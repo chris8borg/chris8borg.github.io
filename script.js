@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ambientAudio = document.getElementById('ambient-audio');
     const triforceAudio = document.getElementById('triforce-audio');
     const widgetClickAudio = document.getElementById('widget-click-audio');
+    let isAmbientPlaying = false;
 
     let mouseX = 0, mouseY = 0;
 
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cursorOutline.classList.add('cursor-hidden');
         vimeoPlayers.forEach(player => player.pause());
         if (ambientAudio) {
-             ambientAudio.pause();
+            ambientAudio.pause();
         }
         if (triforceAudio) {
             triforceAudio.currentTime = 0;
@@ -141,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
     const profilePicture = document.querySelector('.profile-picture');
 
     if (profilePicture && window.innerWidth > 768) {
@@ -167,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         let activePlayer = 0;
+        videoPlayers[0].src = videoPlaylist[0];
 
         function playNextVideo() {
             if (!hasPlayedFirstTime) {
@@ -194,8 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
             video.addEventListener('ended', playNextVideo);
         });
 
-        videoPlayers[0].src = videoPlaylist[0];
-        videoPlayers[0].play();
+        profileVideoPlayers = videoPlayers;
         
         profilePicture.addEventListener('mouseenter', () => {
             profilePicture.classList.add('glitch-active');
@@ -241,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 backgroundVideo.play();
             }
             if (ambientAudio) {
-                 ambientAudio.pause();
+                ambientAudio.pause();
             }
         });
 
@@ -423,11 +424,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const introOverlay = document.getElementById('intro-overlay');
 
         const startFullPage = () => {
+            introOverlay.classList.add('is-hidden');
             body.classList.remove('intro-is-active');
             body.classList.remove('login-is-active');
-            body.classList.add('custom-cursor-active');
-
-            if (profileVideoPlayers.length > 0 && profileVideoPlayers[0]) {
+            
+            if (profileVideoPlayers.length > 0) {
                 profileVideoPlayers[0].play().catch(()=>{});
             }
 
@@ -450,6 +451,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sessionStorage.getItem('introPlayed')) {
             introOverlay.style.display = 'none';
             startFullPage();
+            if (ambientAudio) {
+                ambientAudio.currentTime = 10;
+                ambientAudio.volume = 0.05;
+                ambientAudio.play().catch(()=>{});
+            }
             return;
         }
 
