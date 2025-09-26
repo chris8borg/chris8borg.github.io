@@ -108,8 +108,8 @@ const originalTitle = document.title;
 function glitchTabTitle() {
     const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
     const totalLength = originalTitle.length;
-    const minGlitchLength = Math.floor(totalLength * 1.5);
-    const maxGlitchLength = totalLength + 15;
+    const minGlitchLength = Math.floor(totalLength * 0.5);
+    const maxGlitchLength = totalLength + 5;
     const randomLength = Math.floor(Math.random() * (maxGlitchLength - minGlitchLength + 1)) + minGlitchLength;
 
     let glitchText = '';
@@ -118,7 +118,13 @@ function glitchTabTitle() {
         glitchText += randomChar;
     }
 
-    document.title = glitchText.substring(0, totalLength);
+    const startPos = Math.floor(Math.random() * (totalLength - (randomLength > totalLength ? totalLength : randomLength) + 1));
+    const endPos = startPos + randomLength;
+
+    const before = originalTitle.substring(0, startPos);
+    const after = originalTitle.substring(endPos);
+
+    document.title = before + glitchText + after;
     
     const randomDelay = Math.random() * (900 - 150) + 150;
     setTimeout(() => {
