@@ -31,6 +31,7 @@ function glitchTabTitle() {
         setTimeout(glitchTabTitle, randomDelay);
     }, Math.random() * 100 + 50);
 }
+glitchTabTitle();
 
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
