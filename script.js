@@ -134,8 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    glitchTabTitle();
-
     const banner = document.querySelector('.banner');
     const bannerImg = banner.querySelector('img');
     const kamojiDesktop = banner.querySelector('.kamoji-desktop');
