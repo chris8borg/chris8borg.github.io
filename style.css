@@ -56,18 +56,43 @@ body.custom-cursor-active {
 }
 .banner-text {
     position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
     width: 100%;
+    height: 100%;
+    font-family: 'Press Start 2P', cursive;
+}
+.banner-text .top-text,
+.banner-text .bottom-text,
+.banner-text .kamoji-desktop {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    line-height: 1;
+}
+.banner-text .kamoji-desktop {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-family: 'Press Start 2P', cursive;
-    font-size: 24px;
-    color: #fff;
     text-shadow: 0 0 5px #ff5000, 0 0 10px #ff5000;
+    font-size: 24px;
     transition: transform 0.3s ease-out;
 }
-.kamoji-desktop {
-    display: inline;
+.banner-text .top-text {
+    top: 25%;
+    left: 10%;
+    font-size: 12px;
+    opacity: 0.7;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+.banner-text .bottom-text {
+    bottom: 25%;
+    right: 10%;
+    font-size: 12px;
+    opacity: 0.7;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 .kamoji-mobile {
     display: none;
@@ -336,6 +361,14 @@ body.custom-cursor-active {
     text-shadow: 0 0 8px #ff5000, 0 0 12px #ff5000;
     transform: scale(1.2);
 }
+.social-links a.vrchat-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.social-links a.vrchat-link i {
+    transform: scaleX(0.8) scaleY(0.85) translateY(1px) translateX(-3px);
+}
 .floating-lyrics {
     position: fixed;
     top: 50%;
@@ -477,6 +510,9 @@ body.custom-cursor-active {
 .song-info.system-idle #song-title {
     font-size: 14px;
 }
+.song-info.system-idle #song-artist {
+    display: none;
+}
 #song-artist {
     font-size: 14px;
     color: #aaa;
@@ -569,13 +605,32 @@ body.custom-cursor-active {
 }
 @media (max-width: 480px) {
     .banner-text {
-        font-size: 16px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
     }
-    .kamoji-desktop {
+    .banner-text .top-text,
+    .banner-text .bottom-text,
+    .banner-text .kamoji-desktop,
+    .banner-text .kamoji-mobile {
+        position: static;
+        transform: none;
+    }
+    .banner-text .kamoji-desktop {
         display: none;
     }
-    .kamoji-mobile {
-        display: inline;
+    .banner-text .kamoji-mobile {
+        display: inline-block;
+        font-size: 18px;
+        color: #fff;
+        text-shadow: 0 0 5px #ff5000, 0 0 10px #ff5000;
+    }
+    .banner-text .bottom-text {
+        text-align: center;
+        flex: 0;
     }
     .profile-picture img {
         width: 120px;
