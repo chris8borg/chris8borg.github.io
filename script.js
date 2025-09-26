@@ -103,22 +103,36 @@ document.addEventListener('DOMContentLoaded', () => {
             konamiIndex = 0;
         }
     });
+const originalTitle = document.title;
 
-    function glitchTabTitle() {
-        const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
-        const minLength = 4;
-        const maxLength = 10;
-        const randomLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
-        let glitchText = '';
-        for (let i = 0; i < randomLength; i++) {
-            const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-            glitchText += randomChar;
-        }
-        document.title = glitchText;
-        const randomDelay = Math.random() * (900 - 150) + 150;
-        setTimeout(glitchTabTitle, randomDelay);
+function glitchTabTitle() {
+    const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
+    const totalLength = originalTitle.length;
+    const minGlitchLength = Math.floor(totalLength * 0.5);
+    const maxGlitchLength = totalLength + 5;
+    const randomLength = Math.floor(Math.random() * (maxGlitchLength - minGlitchLength + 1)) + minGlitchLength;
+
+    let glitchText = '';
+    for (let i = 0; i < randomLength; i++) {
+        const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+        glitchText += randomChar;
     }
-    glitchTabTitle();
+
+    const startPos = Math.floor(Math.random() * (totalLength - (randomLength > totalLength ? totalLength : randomLength) + 1));
+    const endPos = startPos + randomLength;
+
+    const before = originalTitle.substring(0, startPos);
+    const after = originalTitle.substring(endPos);
+
+    document.title = before + glitchText + after;
+    
+    const randomDelay = Math.random() * (900 - 150) + 150;
+    setTimeout(() => {
+        document.title = originalTitle;
+        setTimeout(glitchTabTitle, randomDelay);
+    }, Math.random() * 100 + 50);
+}
+glitchTabTitle();
 
     const banner = document.querySelector('.banner');
     const bannerImg = banner.querySelector('img');
