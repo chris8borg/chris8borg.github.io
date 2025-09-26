@@ -16,6 +16,116 @@ body {
 body.custom-cursor-active {
     cursor: none;
 }
+#intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    z-index: 99999;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+    cursor: none;
+}
+#intro-overlay.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+#intro-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 50%, transparent 50%);
+    background-size: 100% 4px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+.intro-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+.intro-screen.is-active {
+    opacity: 1;
+}
+#intro-bios {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 5vw;
+    font-family: 'Share Tech Mono', monospace;
+    color: #ccc;
+    text-shadow: 0 0 5px rgba(255, 80, 0, 0.5);
+}
+#intro-bios p {
+    margin: 5px 0;
+}
+#intro-login {
+    cursor: auto;
+}
+#intro-login .login-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+#intro-login .kamoji {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 24px;
+    color: #fff;
+    text-shadow: 0 0 8px #ff5000;
+}
+#intro-login .enter-prompt {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 16px;
+    color: #ccc;
+    border: 1px solid #555;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#intro-login .enter-prompt:hover {
+    background-color: #ff5000;
+    color: #000;
+    border-color: #ff5000;
+}
+.loading-bar-container {
+    width: 200px;
+    height: 4px;
+    border: 1px solid #444;
+    padding: 2px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.loading-bar-container.is-loading {
+    opacity: 1;
+}
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #ff5000;
+    transition: width 6s linear;
+}
+.cursor-dot,.cursor-outline {
+    opacity: 0;
+}
+body.custom-cursor-active .cursor-dot,body.custom-cursor-active .cursor-outline {
+    opacity: 1;
+}
+body.intro-is-active .cursor-dot,body.intro-is-active .cursor-outline {
+    opacity: 0 !important;
+}
+body.login-is-active .cursor-dot,body.login-is-active .cursor-outline {
+    opacity: 1 !important;
+}
 @keyframes gradient-flow {
     0% { background-position: 50% 0%; }
     50% { background-position: 50% 100%; }
@@ -169,7 +279,6 @@ body.custom-cursor-active {
     93% { transform: translate(3px, 3px); }
     94%, 100% { transform: translate(0, 0); }
 }
-
 @keyframes glitch-effect-dark {
     0%, 89% { opacity: 0; transform: translate(0,0); clip-path: inset(0 0 0 0); }
     90% { opacity: 0.4; clip-path: inset(10% 0 55% 0); transform: translate(5px, 2px); }
@@ -178,7 +287,6 @@ body.custom-cursor-active {
     93% { opacity: 0.4; clip-path: inset(30% 0 60% 0); transform: translate(2px, -3px); }
     94%, 100% { opacity: 0; transform: translate(0,0); clip-path: inset(0 0 0 0); }
 }
-
 @keyframes glitch-burst-idle {
     0%, 95% { transform: translate(0, 0); }
     96% { transform: translate(-1px, 1px); }
