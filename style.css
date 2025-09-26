@@ -30,6 +30,7 @@ body.custom-cursor-active {
     z-index: 1;
 }
 .profile-container {
+    perspective: 1000px;
     position: relative;
     max-width: 680px;
     width: 100%;
@@ -102,49 +103,63 @@ body.custom-cursor-active {
     top: 220px;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 3;
-    cursor: pointer;
-}
-.profile-picture img {
     width: 150px;
     height: 150px;
+    z-index: 3;
+    cursor: pointer;
     border-radius: 50%;
     border: 5px solid #ff5000;
     box-shadow: 0 0 15px rgba(255, 80, 0, 0.8), inset 0 0 10px rgba(0,0,0,0.5);
-    animation: glitch-burst 5s infinite;
 }
-.profile-picture::before,
 .profile-picture::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 3;
     width: 100%;
     height: 100%;
-    background-image: url('assets/perfil.jpg');
-    background-size: cover;
-    background-position: center;
     border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+.profile-picture img,
+.profile-picture video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    animation: glitch-burst-idle 4s infinite;
+}
+.profile-picture video {
     opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
-.profile-picture::before {
-    animation: glitch-before-burst 5s infinite;
-    mix-blend-mode: screen;
-    background-color: red;
+.profile-picture video.is-active {
+    opacity: 1;
 }
-.profile-picture::after {
-    animation: glitch-after-burst 5s infinite;
-    mix-blend-mode: screen;
-    background-color: cyan;
+.profile-picture .glitch-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: #990000;
+    animation: glitch-effect-dark-idle 4s infinite;
 }
-.profile-picture.glitch-active img {
+.profile-picture.glitch-active img,
+.profile-picture.glitch-active video {
     animation: glitch-burst 0.7s infinite;
 }
-.profile-picture.glitch-active::before {
-    animation: glitch-before-burst 0.7s infinite;
-}
-.profile-picture.glitch-active::after {
-    animation: glitch-after-burst 0.7s infinite;
+.profile-picture.glitch-active .glitch-layer {
+    animation: glitch-effect-dark 0.7s infinite;
 }
 @keyframes glitch-burst {
     0%, 89% { transform: translate(0, 0); }
@@ -154,21 +169,29 @@ body.custom-cursor-active {
     93% { transform: translate(3px, 3px); }
     94%, 100% { transform: translate(0, 0); }
 }
-@keyframes glitch-before-burst {
-    0%, 89% { opacity: 0; transform: translate(0,0); clip-path: inset(50% 0 30% 0); }
-    90% { opacity: 0.8; clip-path: inset(50% 0 30% 0); transform: translate(-5px, -2px); }
-    91% { opacity: 0.8; clip-path: inset(80% 0 10% 0); transform: translate(4px, 2px); }
-    92% { opacity: 0.8; clip-path: inset(20% 0 70% 0); transform: translate(5px, -3px); }
-    93% { opacity: 0.8; clip-path: inset(60% 0 30% 0); transform: translate(-2px, 3px); }
+
+@keyframes glitch-effect-dark {
+    0%, 89% { opacity: 0; transform: translate(0,0); clip-path: inset(0 0 0 0); }
+    90% { opacity: 0.4; clip-path: inset(10% 0 55% 0); transform: translate(5px, 2px); }
+    91% { opacity: 0.4; clip-path: inset(40% 0 20% 0); transform: translate(-4px, -2px); }
+    92% { opacity: 0.4; clip-path: inset(90% 0 5% 0); transform: translate(-5px, 3px); }
+    93% { opacity: 0.4; clip-path: inset(30% 0 60% 0); transform: translate(2px, -3px); }
     94%, 100% { opacity: 0; transform: translate(0,0); clip-path: inset(0 0 0 0); }
 }
-@keyframes glitch-after-burst {
-    0%, 89% { opacity: 0; transform: translate(0,0); clip-path: inset(0 0 0 0); }
-    90% { opacity: 0.8; clip-path: inset(10% 0 55% 0); transform: translate(5px, 2px); }
-    91% { opacity: 0.8; clip-path: inset(40% 0 20% 0); transform: translate(-4px, -2px); }
-    92% { opacity: 0.8; clip-path: inset(90% 0 5% 0); transform: translate(-5px, 3px); }
-    93% { opacity: 0.8; clip-path: inset(30% 0 60% 0); transform: translate(2px, -3px); }
-    94%, 100% { opacity: 0; transform: translate(0,0); clip-path: inset(0 0 0 0); }
+
+@keyframes glitch-burst-idle {
+    0%, 95% { transform: translate(0, 0); }
+    96% { transform: translate(-1px, 1px); }
+    97% { transform: translate(1px, -1px); }
+    98% { transform: translate(-1px, -1px); }
+    99%, 100% { transform: translate(1px, 1px); }
+}
+@keyframes glitch-effect-dark-idle {
+    0%, 95% { opacity: 0; transform: translate(0,0); clip-path: inset(0 0 0 0); }
+    96% { opacity: 0.2; clip-path: inset(20% 0 70% 0); transform: translate(3px, 1px); }
+    97% { opacity: 0.2; clip-path: inset(50% 0 40% 0); transform: translate(-2px, -1px); }
+    98% { opacity: 0.2; clip-path: inset(75% 0 15% 0); transform: translate(-3px, 2px); }
+    99%, 100% { opacity: 0; transform: translate(0,0); clip-path: inset(0 0 0 0); }
 }
 .content {
     background: transparent;
@@ -632,7 +655,9 @@ body.custom-cursor-active {
         text-align: center;
         flex: 0;
     }
-    .profile-picture img {
+    .profile-picture,
+    .profile-picture img,
+    .profile-picture video {
         width: 120px;
         height: 120px;
     }
@@ -706,12 +731,12 @@ body.custom-cursor-active {
 }
 .hidden-on-load {
     opacity: 0;
-    transform: translateY(40px) scale(0.95);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 .show-on-scroll {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
 }
 .video-background-container {
     position: fixed;

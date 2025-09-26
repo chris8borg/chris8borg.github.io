@@ -143,7 +143,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     const profilePicture = document.querySelector('.profile-picture');
-    if (profilePicture) {
+
+    if (profilePicture && window.innerWidth > 768) {
+        const existingImg = profilePicture.querySelector('img');
+        const videoPlaylist = [
+            'assets/videos/profile-video-3.mp4'
+        ];
+        if (existingImg) {
+            existingImg.remove();
+        }
+
+        let currentVideoIndex = 0;
+        let hasPlayedFirstTime = false;
+        const videoPlayers = [document.createElement('video'), document.createElement('video')];
+        const glitchLayers = [document.createElement('div'), document.createElement('div')];
+
+        videoPlayers.forEach((video, index) => {
+            video.muted = true;
+            video.playsInline = true;
+            if (index === 0) video.classList.add('is-active');
+            glitchLayers[index].className = 'glitch-layer';
+            profilePicture.append(video, glitchLayers[index]);
+        });
+        
+        let activePlayer = 0;
+
+        function playNextVideo() {
+            if (!hasPlayedFirstTime) {
+                hasPlayedFirstTime = true;
+                return;
+            }
+
+            const nextPlayerIndex = (activePlayer + 1) % 2;
+            const currentPlayer = videoPlayers[activePlayer];
+            const nextPlayer = videoPlayers[nextPlayerIndex];
+
+            currentVideoIndex = (currentVideoIndex + 1) % videoPlaylist.length;
+            nextPlayer.src = videoPlaylist[currentVideoIndex];
+            nextPlayer.load();
+
+            nextPlayer.addEventListener('loadeddata', () => {
+                currentPlayer.classList.remove('is-active');
+                nextPlayer.classList.add('is-active');
+                nextPlayer.play();
+                activePlayer = nextPlayerIndex;
+            }, { once: true });
+        }
+
+        videoPlayers.forEach(video => {
+            video.addEventListener('ended', playNextVideo);
+        });
+
+        videoPlayers[0].src = videoPlaylist[0];
+        videoPlayers[0].play();
+        
+        profilePicture.addEventListener('mouseenter', () => {
+            profilePicture.classList.add('glitch-active');
+            if (hasPlayedFirstTime) {
+                videoPlayers[activePlayer].play();
+            }
+        });
+        profilePicture.addEventListener('mouseleave', () => {
+            profilePicture.classList.remove('glitch-active');
+            videoPlayers[activePlayer].pause();
+        });
+
+    } else if (profilePicture) {
         profilePicture.addEventListener('mouseenter', () => {
             profilePicture.classList.add('glitch-active');
         });
