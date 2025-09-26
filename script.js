@@ -232,12 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('show-on-scroll');
+                observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper').forEach(item => {
+    const elementsToAnimate = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper, .sackboy-image');
+    
+    elementsToAnimate.forEach((item, index) => {
         item.classList.add('hidden-on-load');
+        item.style.transitionDelay = `${index * 100}ms`;
         observer.observe(item);
     });
     
