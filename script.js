@@ -2,6 +2,36 @@ particlesJS("particles-js", { "particles": { "number": { "value": 60, "density":
 
 const vimeoPlayers = [];
 
+const originalTitle = document.title;
+
+function glitchTabTitle() {
+    const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
+    const totalLength = originalTitle.length;
+    const minGlitchLength = Math.floor(totalLength * 1.5);
+    const maxGlitchLength = totalLength + 30;
+    const randomLength = Math.floor(Math.random() * (maxGlitchLength - minGlitchLength + 1)) + minGlitchLength;
+
+    let glitchText = '';
+    for (let i = 0; i < randomLength; i++) {
+        const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+        glitchText += randomChar;
+    }
+
+    const startPos = Math.floor(Math.random() * (totalLength - (randomLength > totalLength ? totalLength : randomLength) + 1));
+    const endPos = startPos + randomLength;
+
+    const before = originalTitle.substring(0, startPos);
+    const after = originalTitle.substring(endPos);
+
+    document.title = before + glitchText + after;
+    
+    const randomDelay = Math.random() * (900 - 150) + 150;
+    setTimeout(() => {
+        document.title = originalTitle;
+        setTimeout(glitchTabTitle, randomDelay);
+    }, Math.random() * 100 + 50);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const cursorDot = document.querySelector(".cursor-dot");
@@ -103,36 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
             konamiIndex = 0;
         }
     });
-const originalTitle = document.title;
 
-function glitchTabTitle() {
-    const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
-    const totalLength = originalTitle.length;
-    const minGlitchLength = Math.floor(totalLength * 1.5);
-    const maxGlitchLength = totalLength + 30;
-    const randomLength = Math.floor(Math.random() * (maxGlitchLength - minGlitchLength + 1)) + minGlitchLength;
-
-    let glitchText = '';
-    for (let i = 0; i < randomLength; i++) {
-        const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-        glitchText += randomChar;
-    }
-
-    const startPos = Math.floor(Math.random() * (totalLength - (randomLength > totalLength ? totalLength : randomLength) + 1));
-    const endPos = startPos + randomLength;
-
-    const before = originalTitle.substring(0, startPos);
-    const after = originalTitle.substring(endPos);
-
-    document.title = before + glitchText + after;
-    
-    const randomDelay = Math.random() * (900 - 150) + 150;
-    setTimeout(() => {
-        document.title = originalTitle;
-        setTimeout(glitchTabTitle, randomDelay);
-    }, Math.random() * 100 + 50);
-}
-glitchTabTitle();
+    glitchTabTitle();
 
     const banner = document.querySelector('.banner');
     const bannerImg = banner.querySelector('img');
