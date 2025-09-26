@@ -103,23 +103,22 @@ document.addEventListener('DOMContentLoaded', () => {
             konamiIndex = 0;
         }
     });
-const originalTitle = document.title;
 
-function glitchTabTitle() {
-    const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
-    const minLength = 5;
-    const maxLength = 30;
-    const randomLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
-    let glitchText = '';
-    for (let i = 0; i < randomLength; i++) {
-        const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-        glitchText += randomChar;
+    function glitchTabTitle() {
+        const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
+        const minLength = 5;
+        const maxLength = 30;
+        const randomLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+        let glitchText = '';
+        for (let i = 0; i < randomLength; i++) {
+            const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+            glitchText += randomChar;
+        }
+        document.title = glitchText;
+        const randomDelay = Math.random() * (900 - 150) + 150;
+        setTimeout(glitchTabTitle, randomDelay);
     }
-    document.title = glitchText;
-    const randomDelay = Math.random() * (900 - 150) + 150;
-    setTimeout(glitchTabTitle, randomDelay);
-}
-glitchTabTitle();
+    glitchTabTitle();
 
     const banner = document.querySelector('.banner');
     const bannerImg = banner.querySelector('img');
