@@ -118,13 +118,7 @@ function glitchTabTitle() {
         glitchText += randomChar;
     }
 
-    const startPos = Math.floor(Math.random() * (totalLength - (randomLength > totalLength ? totalLength : randomLength) + 1));
-    const endPos = startPos + randomLength;
-
-    const before = originalTitle.substring(0, startPos);
-    const after = originalTitle.substring(endPos);
-
-    document.title = before + glitchText + after;
+    document.title = glitchText.substring(0, totalLength);
     
     const randomDelay = Math.random() * (900 - 150) + 150;
     setTimeout(() => {
