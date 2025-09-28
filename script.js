@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     }
 
-    const interactiveElements = document.querySelectorAll('.video-wrapper, .spotify-wrapper');
+    const interactiveElements = document.querySelectorAll('.spotify-wrapper, .video-wrapper');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursorDot.classList.add('cursor-hidden');
@@ -115,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
             konamiIndex = 0;
         }
     });
- 
-function glitchTabTitle() {
+
+    function glitchTabTitle() {
         const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
         const minLength = 5;
         const maxLength = 30;
@@ -131,7 +131,7 @@ function glitchTabTitle() {
         setTimeout(glitchTabTitle, randomDelay);
     }
     glitchTabTitle();
- 
+
     const banner = document.querySelector('.banner');
     const bannerImg = banner.querySelector('img');
     const kamojiDesktop = banner.querySelector('.kamoji-desktop');
@@ -227,35 +227,19 @@ function glitchTabTitle() {
         });
     }
 
-    const vimeoIframes = document.querySelectorAll('.video-wrapper iframe');
-    vimeoIframes.forEach(iframe => {
+    const videoWrappers = document.querySelectorAll('.video-wrapper');
+    videoWrappers.forEach(wrapper => {
+        const iframe = wrapper.querySelector('iframe');
+        if (!iframe) return;
+
         const player = new Vimeo.Player(iframe);
         vimeoPlayers.push(player);
-        const parentWrapper = iframe.closest('.video-wrapper');
-        const bgVideoSrc = parentWrapper.getAttribute('data-bg-video');
 
-        player.on('play', () => {
-            vimeoPlayers.forEach(otherPlayer => {
-                if (otherPlayer !== player) {
-                    otherPlayer.pause();
-                }
-            });
-            document.querySelectorAll('.video-wrapper').forEach(w => w.classList.remove('video-active'));
-            parentWrapper.classList.add('video-active');
-            body.classList.add('video-is-playing');
-            if (bgVideoSrc) {
-                if (!backgroundVideo.src.endsWith(bgVideoSrc)) {
-                    backgroundVideo.src = bgVideoSrc;
-                }
-                backgroundVideoContainer.style.opacity = '1';
-                backgroundVideo.play();
-            }
-            if (ambientAudio) {
-                ambientAudio.pause();
-            }
-        });
+        const bgVideoSrc = wrapper.getAttribute('data-bg-video');
 
         const onPauseOrEnd = async () => {
+            wrapper.classList.remove('cinematic-mode');
+
             let anyPlaying = false;
             for (const p of vimeoPlayers) {
                 const paused = await p.getPaused();
@@ -268,13 +252,50 @@ function glitchTabTitle() {
                 body.classList.remove('video-is-playing');
                 backgroundVideoContainer.style.opacity = '0';
                 backgroundVideo.pause();
-                parentWrapper.classList.remove('video-active');
+                wrapper.classList.remove('video-active');
                 if (ambientAudio && sessionStorage.getItem('introPlayed')) {
                     ambientAudio.play().catch(()=>{});
                 }
             }
         };
 
+        const handleTimeUpdate = (data) => {
+            player.getDuration().then(duration => {
+                if (data.seconds >= duration - 1) {
+                    player.off('timeupdate', handleTimeUpdate);
+                    player.pause();
+                    player.setCurrentTime(0);
+                }
+            });
+        };
+
+        player.on('play', () => {
+            vimeoPlayers.forEach(otherPlayer => {
+                if (otherPlayer !== player) {
+                    otherPlayer.pause();
+                }
+            });
+            document.querySelectorAll('.video-wrapper').forEach(w => {
+                w.classList.remove('video-active');
+            });
+            wrapper.classList.add('video-active');
+            wrapper.classList.add('cinematic-mode');
+            body.classList.add('video-is-playing');
+            
+            player.on('timeupdate', handleTimeUpdate);
+            
+            if (bgVideoSrc) {
+                if (!backgroundVideo.src.endsWith(bgVideoSrc)) {
+                    backgroundVideo.src = bgVideoSrc;
+                }
+                backgroundVideoContainer.style.opacity = '1';
+                backgroundVideo.play();
+            }
+            if (ambientAudio) {
+                ambientAudio.pause();
+            }
+        });
+        
         player.on('pause', onPauseOrEnd);
         player.on('ended', onPauseOrEnd);
     });
@@ -319,7 +340,7 @@ function glitchTabTitle() {
         });
     }, { threshold: 0.1 });
 
-    const elementsToAnimate = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper, .sackboy-image');
+    const elementsToAnimate = document.querySelectorAll('.content > .video-wrapper, .content > .spotify-wrapper, .content > .link-wrapper, .sackboy-image, .footer-notice');
     
     elementsToAnimate.forEach((item, index) => {
         item.classList.add('hidden-on-load');
