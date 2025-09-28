@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ambientAudio.pause();
         }
         if (triforceAudio) {
-            triforceAudio.volume = 0.3;
+            triforceAudio.volume = 0.1;
             triforceAudio.currentTime = 0;
             triforceAudio.play().catch(()=>{});
         }
@@ -287,7 +287,7 @@ function glitchTabTitle() {
     sackboyImage.addEventListener('click', () => {
         if (!isAudioPlaying) {
             if (lbpAudio) {
-                lbpAudio.volume = 0.3;
+                lbpAudio.volume = 0.1;
                 lbpAudio.currentTime = 0;
                 lbpAudio.play();
                 isAudioPlaying = true;
