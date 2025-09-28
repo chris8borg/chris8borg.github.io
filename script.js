@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const ambientAudio = document.getElementById('ambient-audio');
     const triforceAudio = document.getElementById('triforce-audio');
     const widgetClickAudio = document.getElementById('widget-click-audio');
-    let isAmbientPlaying = false;
 
     let mouseX = 0, mouseY = 0;
 
@@ -52,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     }
 
-    const interactiveElements = document.querySelectorAll('.video-wrapper, .spotify-wrapper, .link-wrapper, .social-links a, .close-button, .triforce-icon, .floating-lyrics, .sackboy-image, #minimize-btn, #minimized-widget, #song-link, .profile-picture');
+    const interactiveElements = document.querySelectorAll('.video-wrapper, .spotify-wrapper');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursorDot.classList.add('cursor-hidden');
@@ -77,13 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function openModal() {
         if (secretModal.style.display === 'flex') return;
         secretModal.style.display = 'flex';
-        cursorDot.classList.add('cursor-hidden');
-        cursorOutline.classList.add('cursor-hidden');
         vimeoPlayers.forEach(player => player.pause());
         if (ambientAudio) {
             ambientAudio.pause();
         }
         if (triforceAudio) {
+            triforceAudio.volume = 0.3;
             triforceAudio.currentTime = 0;
             triforceAudio.play().catch(()=>{});
         }
@@ -94,8 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modalVideo.pause();
         modalVideo.currentTime = 0;
         modalVideo.load();
-        cursorDot.classList.remove('cursor-hidden');
-        cursorOutline.classList.remove('cursor-hidden');
         if (ambientAudio && sessionStorage.getItem('introPlayed')) {
             ambientAudio.play().catch(()=>{});
         }
@@ -200,9 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         profilePicture.addEventListener('mouseenter', () => {
             profilePicture.classList.add('glitch-active');
-            if (hasPlayedFirstTime) {
-                videoPlayers[activePlayer].play();
-            }
+            videoPlayers[activePlayer].play();
         });
         profilePicture.addEventListener('mouseleave', () => {
             profilePicture.classList.remove('glitch-active');
@@ -278,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sackboyImage.addEventListener('click', () => {
         if (!isAudioPlaying) {
             if (lbpAudio) {
+                lbpAudio.volume = 0.3;
                 lbpAudio.currentTime = 0;
                 lbpAudio.play();
                 isAudioPlaying = true;
@@ -424,7 +419,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const introOverlay = document.getElementById('intro-overlay');
 
         const startFullPage = () => {
-            introOverlay.classList.add('is-hidden');
             body.classList.remove('intro-is-active');
             body.classList.remove('login-is-active');
             
@@ -434,8 +428,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             glitchTabTitle = () => {
                 const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
-                const minLength = 4;
-                const maxLength = 10;
+                const minLength = 5;
+                const maxLength = 30;
                 const randomLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
                 let glitchText = '';
                 for (let i = 0; i < randomLength; i++) {
@@ -449,13 +443,21 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (sessionStorage.getItem('introPlayed')) {
-            introOverlay.style.display = 'none';
-            startFullPage();
-            if (ambientAudio) {
+            const playAmbientAudioOnRefresh = () => {
                 ambientAudio.currentTime = 10;
-                ambientAudio.volume = 0.05;
+                ambientAudio.volume = 0.03;
                 ambientAudio.play().catch(()=>{});
+            };
+
+            if (ambientAudio) {
+                if (ambientAudio.readyState >= 4) {
+                    playAmbientAudioOnRefresh();
+                } else {
+                    ambientAudio.addEventListener('canplaythrough', playAmbientAudioOnRefresh, { once: true });
+                }
             }
+            introOverlay.remove();
+            startFullPage();
             return;
         }
 
@@ -499,20 +501,24 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 if (ambientAudio) {
                     ambientAudio.currentTime = 0;
-                    ambientAudio.volume = 1;
+                    ambientAudio.volume = 0.065;
                     ambientAudio.play().catch(()=>{});
                 }
             }, 100);
 
             setTimeout(() => {
                 introOverlay.classList.add('is-hidden');
+                introOverlay.addEventListener('transitionend', () => {
+                    introOverlay.remove();
+                }, { once: true });
+                
                 startFullPage();
                 sessionStorage.setItem('introPlayed', 'true');
             }, 6000);
 
             setTimeout(() => {
                 if (ambientAudio) {
-                    let targetVolume = 0.05;
+                    let targetVolume = 0.03;
                     let fadeInterval = setInterval(() => {
                         if (ambientAudio.volume > targetVolume + 0.01) {
                             ambientAudio.volume = Math.max(targetVolume, ambientAudio.volume - 0.02);
