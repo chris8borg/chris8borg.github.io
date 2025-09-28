@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const backgroundVideo = backgroundVideoContainer.querySelector('video');
 
     let profileVideoPlayers = [];
-    let glitchTabTitle = () => {};
     const ambientAudio = document.getElementById('ambient-audio');
     const triforceAudio = document.getElementById('triforce-audio');
     const widgetClickAudio = document.getElementById('widget-click-audio');
@@ -116,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             konamiIndex = 0;
         }
     });
-  
+ 
 function glitchTabTitle() {
         const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
         const minLength = 5;
@@ -132,7 +131,7 @@ function glitchTabTitle() {
         setTimeout(glitchTabTitle, randomDelay);
     }
     glitchTabTitle();
-  
+ 
     const banner = document.querySelector('.banner');
     const bannerImg = banner.querySelector('img');
     const kamojiDesktop = banner.querySelector('.kamoji-desktop');
