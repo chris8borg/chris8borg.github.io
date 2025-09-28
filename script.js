@@ -9,6 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const backgroundVideoContainer = document.querySelector('.video-background-container');
     const backgroundVideo = backgroundVideoContainer.querySelector('video');
 
+    let profileVideoPlayers = [];
+    let glitchTabTitle = () => {};
+    const ambientAudio = document.getElementById('ambient-audio');
+    const triforceAudio = document.getElementById('triforce-audio');
+    const widgetClickAudio = document.getElementById('widget-click-audio');
+
     let mouseX = 0, mouseY = 0;
 
     const updateCursor = () => {
@@ -45,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     }
 
-    const interactiveElements = document.querySelectorAll('.video-wrapper, .spotify-wrapper, .link-wrapper, .social-links a, .close-button, .triforce-icon, .floating-lyrics, .sackboy-image, #minimize-btn, #minimized-widget, #song-link, .profile-picture');
+    const interactiveElements = document.querySelectorAll('.video-wrapper, .spotify-wrapper');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursorDot.classList.add('cursor-hidden');
@@ -70,9 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function openModal() {
         if (secretModal.style.display === 'flex') return;
         secretModal.style.display = 'flex';
-        cursorDot.classList.add('cursor-hidden');
-        cursorOutline.classList.add('cursor-hidden');
         vimeoPlayers.forEach(player => player.pause());
+        if (ambientAudio) {
+            ambientAudio.pause();
+        }
+        if (triforceAudio) {
+            triforceAudio.volume = 0.3;
+            triforceAudio.currentTime = 0;
+            triforceAudio.play().catch(()=>{});
+        }
     }
 
     function closeModal() {
@@ -80,8 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
         modalVideo.pause();
         modalVideo.currentTime = 0;
         modalVideo.load();
-        cursorDot.classList.remove('cursor-hidden');
-        cursorOutline.classList.remove('cursor-hidden');
+        if (ambientAudio && sessionStorage.getItem('introPlayed')) {
+            ambientAudio.play().catch(()=>{});
+        }
     }
 
     modalTrigger.addEventListener('click', openModal);
@@ -103,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
             konamiIndex = 0;
         }
     });
-
-    function glitchTabTitle() {
+  
+function glitchTabTitle() {
         const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
         const minLength = 5;
         const maxLength = 30;
@@ -119,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(glitchTabTitle, randomDelay);
     }
     glitchTabTitle();
-
+  
     const banner = document.querySelector('.banner');
     const bannerImg = banner.querySelector('img');
     const kamojiDesktop = banner.querySelector('.kamoji-desktop');
@@ -141,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
     const profilePicture = document.querySelector('.profile-picture');
 
     if (profilePicture && window.innerWidth > 768) {
@@ -167,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         let activePlayer = 0;
+        videoPlayers[0].src = videoPlaylist[0];
 
         function playNextVideo() {
             if (!hasPlayedFirstTime) {
@@ -194,14 +208,11 @@ document.addEventListener('DOMContentLoaded', () => {
             video.addEventListener('ended', playNextVideo);
         });
 
-        videoPlayers[0].src = videoPlaylist[0];
-        videoPlayers[0].play();
+        profileVideoPlayers = videoPlayers;
         
         profilePicture.addEventListener('mouseenter', () => {
             profilePicture.classList.add('glitch-active');
-            if (hasPlayedFirstTime) {
-                videoPlayers[activePlayer].play();
-            }
+            videoPlayers[activePlayer].play();
         });
         profilePicture.addEventListener('mouseleave', () => {
             profilePicture.classList.remove('glitch-active');
@@ -240,6 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 backgroundVideoContainer.style.opacity = '1';
                 backgroundVideo.play();
             }
+            if (ambientAudio) {
+                ambientAudio.pause();
+            }
         });
 
         const onPauseOrEnd = async () => {
@@ -256,6 +270,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 backgroundVideoContainer.style.opacity = '0';
                 backgroundVideo.pause();
                 parentWrapper.classList.remove('video-active');
+                if (ambientAudio && sessionStorage.getItem('introPlayed')) {
+                    ambientAudio.play().catch(()=>{});
+                }
             }
         };
 
@@ -271,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sackboyImage.addEventListener('click', () => {
         if (!isAudioPlaying) {
             if (lbpAudio) {
+                lbpAudio.volume = 0.3;
                 lbpAudio.currentTime = 0;
                 lbpAudio.play();
                 isAudioPlaying = true;
@@ -389,6 +407,11 @@ document.addEventListener('DOMContentLoaded', () => {
         widget.classList.add('hidden');
         minimizedWidget.classList.remove('hidden');
         localStorage.setItem('widgetState', 'minimized');
+        if (widgetClickAudio) {
+            widgetClickAudio.volume = 0.1;
+            widgetClickAudio.currentTime = 0;
+            widgetClickAudio.play().catch(()=>{});
+        }
     });
 
     minimizedWidget.addEventListener('click', () => {
@@ -396,10 +419,147 @@ document.addEventListener('DOMContentLoaded', () => {
         minimizedWidget.classList.add('hidden');
         localStorage.setItem('widgetState', 'default');
         fetchNowPlaying();
+        if (widgetClickAudio) {
+            widgetClickAudio.volume = 0.1;
+            widgetClickAudio.currentTime = 0;
+            widgetClickAudio.play().catch(()=>{});
+        }
     });
 
     initializeWidgetState();
     setInterval(() => {
         if (!widget.classList.contains('hidden')) fetchNowPlaying();
     }, REFRESH_INTERVAL);
+
+    function handleIntro() {
+        const introOverlay = document.getElementById('intro-overlay');
+
+        const startFullPage = () => {
+            body.classList.remove('intro-is-active');
+            body.classList.remove('login-is-active');
+            
+            if (profileVideoPlayers.length > 0) {
+                profileVideoPlayers[0].play().catch(()=>{});
+            }
+
+            glitchTabTitle = () => {
+                const glitchChars = ['█', '▓', '▒', '░', '_', '-', '|', ' '];
+                const minLength = 5;
+                const maxLength = 30;
+                const randomLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+                let glitchText = '';
+                for (let i = 0; i < randomLength; i++) {
+                    glitchText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                }
+                document.title = glitchText;
+                const randomDelay = Math.random() * (900 - 150) + 150;
+                setTimeout(glitchTabTitle, randomDelay);
+            };
+            glitchTabTitle();
+        };
+
+        if (sessionStorage.getItem('introPlayed')) {
+            const playAmbientAudioOnRefresh = () => {
+                ambientAudio.currentTime = 10;
+                ambientAudio.volume = 0.03;
+                ambientAudio.play().catch(()=>{});
+            };
+
+            if (ambientAudio) {
+                if (ambientAudio.readyState >= 4) {
+                    playAmbientAudioOnRefresh();
+                } else {
+                    ambientAudio.addEventListener('canplaythrough', playAmbientAudioOnRefresh, { once: true });
+                }
+            }
+            introOverlay.remove();
+            startFullPage();
+            return;
+        }
+
+        body.classList.add('intro-is-active');
+        const introBios = document.getElementById('intro-bios');
+        const biosLines = introBios.querySelectorAll('p');
+        const introLogin = document.getElementById('intro-login');
+        const enterButton = document.getElementById('enter-button');
+        const loadingBar = document.querySelector('.loading-bar');
+        const loadingBarContainer = document.querySelector('.loading-bar-container');
+        let introStarted = false;
+
+        let delay = 500;
+        biosLines.forEach(line => {
+            setTimeout(() => { line.textContent = line.dataset.text; }, delay);
+            delay += 500;
+        });
+
+        setTimeout(() => {
+            introBios.classList.remove('is-active');
+            introLogin.classList.add('is-active');
+            body.classList.add('login-is-active');
+        }, delay + 500);
+
+        function startMainExperience() {
+            if (introStarted) return;
+            introStarted = true;
+
+            document.querySelectorAll('audio').forEach(audio => {
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => audio.pause()).catch(() => {});
+                }
+            });
+
+            enterButton.style.pointerEvents = 'none';
+            enterButton.textContent = '[ CONECTANDO... ]';
+            loadingBarContainer.classList.add('is-loading');
+            loadingBar.style.width = '100%';
+
+            setTimeout(() => {
+                if (ambientAudio) {
+                    ambientAudio.currentTime = 0;
+                    ambientAudio.volume = 0.065;
+                    ambientAudio.play().catch(()=>{});
+                }
+            }, 100);
+
+            setTimeout(() => {
+                introOverlay.classList.add('is-hidden');
+                introOverlay.addEventListener('transitionend', () => {
+                    introOverlay.remove();
+                }, { once: true });
+                
+                startFullPage();
+                sessionStorage.setItem('introPlayed', 'true');
+            }, 6000);
+
+            setTimeout(() => {
+                if (ambientAudio) {
+                    let targetVolume = 0.03;
+                    let fadeInterval = setInterval(() => {
+                        if (ambientAudio.volume > targetVolume + 0.01) {
+                            ambientAudio.volume = Math.max(targetVolume, ambientAudio.volume - 0.02);
+                        } else {
+                            ambientAudio.volume = targetVolume;
+                            clearInterval(fadeInterval);
+                        }
+                    }, 100);
+                }
+            }, 6000);
+        }
+
+        introLogin.addEventListener('click', startMainExperience);
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') startMainExperience();
+        }, { once: true });
+
+        if (ambientAudio) {
+            ambientAudio.addEventListener('timeupdate', () => {
+                if (ambientAudio.duration && ambientAudio.currentTime >= ambientAudio.duration - 0.5) {
+                    ambientAudio.currentTime = 10;
+                    ambientAudio.play().catch(()=>{});
+                }
+            });
+        }
+    }
+    handleIntro();
 });

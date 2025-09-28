@@ -11,6 +11,22 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="intro-overlay">
+        <div id="intro-bios" class="intro-screen is-active">
+            <p data-text="MEMORY CHECK: 256MB... OK"></p>
+            <p data-text="LOADING USER PROFILE: CHRIS8BORG..."></p>
+            <p data-text="AWAITING USER INPUT..."></p>
+        </div>
+        <div id="intro-login" class="intro-screen">
+            <div class="login-content">
+                <span class="kamoji">ᕙ(⇀‸↼‶)ᕗ</span>
+                <div id="enter-button" class="enter-prompt">[ PRESS ENTER / CLICK ]</div>
+                <div class="loading-bar-container">
+                    <div class="loading-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="video-background-container">
         <video loop muted playsinline></video>
     </div>
@@ -126,8 +142,11 @@
         </div>
     </div>
     
+    <audio id="ambient-audio" src="assets/ambient-audio.mp3" preload="auto"></audio>
     <audio id="lbp-audio" src="assets/LBP2S.mp3" preload="auto"></audio>
     <audio id="lyrics-audio" src="assets/yosiemprecontesto.mp3" preload="auto" loop></audio>
+    <audio id="triforce-audio" src="assets/triforce-audio.mp3" preload="auto"></audio>
+    <audio id="widget-click-audio" src="assets/widget-click-audio.mp3" preload="auto"></audio>
 
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
