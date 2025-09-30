@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     color: #e0e0e0;
-    background: radial-gradient(circle, #000000 40%, #2c0b00 75%, #990000 95%);
+    background: radial-gradient(circle, #050508 40%, #0D0A14 75%, #190F29 95%);
     background-size: 150% 150%;
     animation: gradient-flow 15s ease-in-out infinite;
     display: flex;
@@ -64,7 +64,7 @@ body.custom-cursor-active {
     padding-left: 5vw;
     font-family: 'Share Tech Mono', monospace;
     color: #ccc;
-    text-shadow: 0 0 5px rgba(255, 80, 0, 0.5);
+    text-shadow: 0 0 5px rgba(153, 51, 255, 0.5);
 }
 #intro-bios p {
     margin: 5px 0;
@@ -82,7 +82,7 @@ body.custom-cursor-active {
     font-family: 'Press Start 2P', cursive;
     font-size: 24px;
     color: #fff;
-    text-shadow: 0 0 8px #ff5000;
+    text-shadow: 0 0 8px #FF3399;
 }
 #intro-login .enter-prompt {
     font-family: 'Share Tech Mono', monospace;
@@ -94,9 +94,9 @@ body.custom-cursor-active {
     transition: all 0.3s ease;
 }
 #intro-login .enter-prompt:hover {
-    background-color: #ff5000;
+    background-color: #9933FF;
     color: #000;
-    border-color: #ff5000;
+    border-color: #9933FF;
 }
 .loading-bar-container {
     width: 200px;
@@ -112,7 +112,7 @@ body.custom-cursor-active {
 .loading-bar {
     width: 0%;
     height: 100%;
-    background-color: #ff5000;
+    background-color: #9933FF;
     transition: width 6s linear;
 }
 @keyframes gradient-flow {
@@ -176,7 +176,7 @@ body.custom-cursor-active {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-shadow: 0 0 5px #ff5000, 0 0 10px #ff5000;
+    text-shadow: 0 0 5px #9933FF, 0 0 10px #9933FF;
     font-size: 24px;
     transition: transform 0.3s ease-out;
 }
@@ -207,8 +207,8 @@ body.custom-cursor-active {
     z-index: 11;
     cursor: none;
     border-radius: 50%;
-    border: 5px solid #ff5000;
-    box-shadow: 0 0 15px rgba(255, 80, 0, 0.8), inset 0 0 10px rgba(0,0,0,0.5);
+    border: 5px solid #9933FF;
+    box-shadow: 0 0 15px rgba(153, 51, 255, 0.8), inset 0 0 10px rgba(0,0,0,0.5);
 }
 .profile-picture::after {
     content: '';
@@ -250,7 +250,7 @@ body.custom-cursor-active {
     width: 100%;
     height: 100%;
     opacity: 0;
-    background-color: #990000;
+    background-color: #392A48;
     animation: glitch-effect-dark-idle 4s infinite;
 }
 .profile-picture.glitch-active img,
@@ -301,9 +301,9 @@ body.custom-cursor-active {
 }
 .video-wrapper,
 .spotify-wrapper {
-    border: 1px solid rgba(255, 80, 0, 0.5);
+    border: 1px solid rgba(153, 51, 255, 0.5);
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(255, 80, 0, 0.3);
+    box-shadow: 0 0 10px rgba(153, 51, 255, 0.3);
     position: relative;
     z-index: 1;
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
@@ -318,7 +318,7 @@ body.custom-cursor-active {
     margin-bottom: 60px;
     z-index: 10;
     border-color: transparent;
-    background: linear-gradient(60deg, #990000, #ff6a00, #ff5000, #2c0b00);
+    background: linear-gradient(60deg, #9933FF, #00CCFF, #FF3399, #190F29);
     background-size: 300% 300%;
     padding: 5px;
     animation: liquid-border-flow 3s ease-in-out infinite alternate, neon-glow 3s ease-in-out infinite alternate;
@@ -329,10 +329,10 @@ body.custom-cursor-active {
 }
 @keyframes neon-glow {
     from {
-        box-shadow: 0 0 15px 4px rgba(255, 80, 0, 0.4), 0 0 20px 4px rgba(255, 80, 0, 0.3);
+        box-shadow: 0 0 15px 4px rgba(153, 51, 255, 0.4), 0 0 20px 4px rgba(0, 204, 255, 0.3);
     }
     to {
-        box-shadow: 0 0 30px 4px rgba(255, 80, 0, 0.7), 0 0 45px 4px rgba(255, 80, 0, 0.5);
+        box-shadow: 0 0 30px 4px rgba(153, 51, 255, 0.7), 0 0 45px 4px rgba(255, 51, 153, 0.5);
     }
 }
 .video-wrapper iframe {
@@ -350,9 +350,9 @@ body.custom-cursor-active {
     border-radius: 10px;
 }
 .link-wrapper {
-    border: 1px solid rgba(255, 80, 0, 0.5);
+    border: 1px solid rgba(153, 51, 255, 0.5);
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(255, 80, 0, 0.3);
+    box-shadow: 0 0 10px rgba(153, 51, 255, 0.3);
     padding: 15px 20px;
     transition: background-color 0.3s ease;
     animation: pulse-glow 2.5s infinite ease-in-out;
@@ -361,14 +361,14 @@ body.custom-cursor-active {
     align-items: center;
 }
 .link-wrapper:hover {
-    background-color: rgba(255, 80, 0, 0.1);
+    background-color: rgba(153, 51, 255, 0.1);
 }
 .link-wrapper a {
     color: #e0e0e0;
     text-decoration: none;
     font-family: 'Press Start 2P', cursive;
     font-size: 14px;
-    text-shadow: 0 0 5px #ff5000;
+    text-shadow: 0 0 5px #FF3399;
     cursor: none;
 }
 .triforce-icon {
@@ -414,12 +414,12 @@ body.custom-cursor-active {
 .cursor-dot {
     width: 8px;
     height: 8px;
-    background-color: #ff5000;
+    background-color: #8A2BE2;
 }
 .cursor-outline {
     width: 40px;
     height: 40px;
-    border: 2px solid rgba(255, 80, 0, 0.5);
+    border: 2px solid rgba(138, 43, 226, 0.5);
 }
 .modal-overlay {
     display: none;
@@ -435,9 +435,9 @@ body.custom-cursor-active {
 }
 .modal-content {
     background: #0d121c;
-    border: 1px solid #ff5000;
+    border: 1px solid #9933FF;
     border-radius: 10px;
-    box-shadow: 0 0 25px #ff5000;
+    box-shadow: 0 0 25px #9933FF;
     padding: 20px;
     width: 90%;
     max-width: 700px;
@@ -455,7 +455,7 @@ body.custom-cursor-active {
     z-index: 10;
 }
 .close-button:hover {
-    color: #ff5000;
+    color: #9933FF;
 }
 .modal-video-container {
     position: relative;
@@ -493,7 +493,7 @@ body.custom-cursor-active {
     border-bottom-right-radius: 12px;
     transform: translate(-70%, -50%);
     transition: transform 0.4s ease-in-out, opacity 0.3s ease;
-    box-shadow: 0 0 8px rgba(255, 80, 0, 0.3);
+    box-shadow: 0 0 8px rgba(153, 51, 255, 0.3);
     animation: pulse-glow-edge 2.5s infinite ease-in-out;
 }
 .social-links a {
@@ -502,7 +502,7 @@ body.custom-cursor-active {
 .social-links:hover {
     transform: translate(0, -50%);
     animation: none;
-    box-shadow: 0 0 12px rgba(255, 80, 0, 0.5);
+    box-shadow: 0 0 12px rgba(153, 51, 255, 0.5);
 }
 .social-links a,
 .social-links a:visited {
@@ -513,7 +513,7 @@ body.custom-cursor-active {
 }
 .social-links a:hover {
     color: #fff;
-    text-shadow: 0 0 8px #ff5000, 0 0 12px #ff5000;
+    text-shadow: 0 0 8px #00CCFF, 0 0 12px #9933FF;
     transform: scale(1.2);
 }
 .social-links a.vrchat-link {
@@ -543,7 +543,7 @@ body.custom-cursor-active {
 }
 .floating-lyrics:hover {
     color: #fff;
-    text-shadow: 0 0 8px #ff5000;
+    text-shadow: 0 0 8px #FF3399;
 }
 .floating-lyrics p {
     margin: 0;
@@ -561,8 +561,8 @@ body.custom-cursor-active {
     background-color: rgba(5, 5, 5, 0.75);
     backdrop-filter: blur(8px);
     color: #ddd;
-    border-top: 1px solid rgba(255, 80, 0, 0.2);
-    border-left: 1px solid rgba(255, 80, 0, 0.2);
+    border-top: 1px solid rgba(153, 51, 255, 0.2);
+    border-left: 1px solid rgba(153, 51, 255, 0.2);
     border-right: 1px solid rgba(0,0,0,0.5);
     border-bottom: 1px solid rgba(0,0,0,0.5);
     box-shadow: inset 0 0 10px #000, 0 0 20px rgba(0,0,0,0.8);
@@ -616,7 +616,7 @@ body.custom-cursor-active {
     transition: all 0.2s ease;
 }
 .widget-buttons button:hover {
-    color: #ff5000;
+    color: #FF3399;
 }
 #song-link {
     display: block;
@@ -635,7 +635,7 @@ body.custom-cursor-active {
     transition: background-color 0.2s ease;
 }
 #song-link:hover .widget-content {
-    background-color: rgba(255, 80, 0, 0.1);
+    background-color: rgba(153, 51, 255, 0.1);
 }
 #album-art {
     width: 80px;
@@ -697,17 +697,17 @@ body.custom-cursor-active {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #050505;
-    border: 1px solid rgba(255, 80, 0, 0.3);
-    box-shadow: inset 0 0 10px rgba(255, 80, 0, 0.4), 0 0 15px rgba(0,0,0,0.8);
+    background-color: #0A0D1F;
+    border: 1px solid rgba(153, 51, 255, 0.3);
+    box-shadow: inset 0 0 10px rgba(153, 51, 255, 0.4), 0 0 15px rgba(0,0,0,0.8);
     border-radius: 50%;
     position: relative;
     overflow: hidden;
 }
 .crt-wrapper i {
     font-size: 24px;
-    color: #ff5000;
-    text-shadow: 0 0 5px #ff5000, 0 0 10px #ff5000;
+    color: #FF3399;
+    text-shadow: 0 0 5px #FF3399, 0 0 10px #00CCFF;
     z-index: 1;
     animation: crt-text-flicker 0.05s infinite;
 }
@@ -774,7 +774,7 @@ body.custom-cursor-active {
         transform: scale(1);
         margin-top: 0;
         margin-bottom: 20px;
-        border-color: rgba(255, 80, 0, 0.5);
+        border-color: rgba(153, 51, 255, 0.5);
         background: none;
         padding: 0;
         animation: none;
@@ -806,7 +806,7 @@ body.custom-cursor-active {
         display: inline-block;
         font-size: 18px;
         color: #fff;
-        text-shadow: 0 0 5px #ff5000, 0 0 10px #ff5000;
+        text-shadow: 0 0 5px #9933FF, 0 0 10px #FF3399;
     }
     .banner-text .bottom-text {
         text-align: center;
@@ -828,24 +828,24 @@ body.custom-cursor-active {
 }
 @keyframes pulse-glow {
     0% {
-        box-shadow: 0 0 10px rgba(255, 80, 0, 0.3);
+        box-shadow: 0 0 10px rgba(153, 51, 255, 0.3);
     }
     50% {
-        box-shadow: 0 0 20px rgba(255, 80, 0, 0.7);
+        box-shadow: 0 0 20px rgba(153, 51, 255, 0.7);
     }
     100% {
-        box-shadow: 0 0 10px rgba(255, 80, 0, 0.3);
+        box-shadow: 0 0 10px rgba(153, 51, 255, 0.3);
     }
 }
 @keyframes pulse-glow-edge {
     0% {
-        box-shadow: 0 0 8px rgba(255, 80, 0, 0.3);
+        box-shadow: 0 0 8px rgba(153, 51, 255, 0.3);
     }
     50% {
-        box-shadow: 0 0 16px rgba(255, 80, 0, 0.7);
+        box-shadow: 0 0 16px rgba(153, 51, 255, 0.7);
     }
     100% {
-        box-shadow: 0 0 8px rgba(255, 80, 0, 0.3);
+        box-shadow: 0 0 8px rgba(153, 51, 255, 0.3);
     }
 }
 .sackboy-image {
@@ -953,7 +953,7 @@ body.video-is-playing .content > *:not(.video-active):not(.sackboy-image) {
 #construction-notice .notice-box {
     background-color: rgba(10, 10, 10, 0.6);
     backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 80, 0, 0.2);
+    border: 1px solid rgba(153, 51, 255, 0.2);
     padding: 8px 12px;
     border-radius: 6px;
     pointer-events: auto;
