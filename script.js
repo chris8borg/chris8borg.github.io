@@ -1,4 +1,4 @@
-particlesJS("particles-js", { "particles": { "number": { "value": 60, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#990000" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 0.5, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true }, "line_linked": { "enable": false }, "move": { "enable": true, "speed": 2, "direction": "top", "random": true, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true } }, "retina_detect": true });
+particlesJS("particles-js", { "particles": { "number": { "value": 60, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#9933FF" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 0.5, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true }, "line_linked": { "enable": false }, "move": { "enable": true, "speed": 2, "direction": "top", "random": true, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true } }, "retina_detect": true });
 
 const vimeoPlayers = [];
 
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (profilePicture && window.innerWidth > 768) {
         const existingImg = profilePicture.querySelector('img');
         const videoPlaylist = [
-            'assets/videos/profile-video-3.mp4'
+            'assets/videos/profile-video-4.mp4'
         ];
         if (existingImg) {
             existingImg.remove();
@@ -211,7 +211,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         profilePicture.addEventListener('mouseenter', () => {
             profilePicture.classList.add('glitch-active');
-            videoPlayers[activePlayer].play();
+            const currentPlayer = videoPlayers[activePlayer];
+            if (currentPlayer.ended) {
+            currentPlayer.currentTime = 0;
+        }
+            currentPlayer.play();
         });
         profilePicture.addEventListener('mouseleave', () => {
             profilePicture.classList.remove('glitch-active');
